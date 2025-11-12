@@ -2,6 +2,8 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
+import { LanguageProvider } from "@/contexts/language-context"
+import CookieBanner from "@/components/cookie-banner"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -17,19 +19,22 @@ const serifFont = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://paradisodellemadonie.it"),
   title: {
-    default: "Hotel Paradiso delle Madonie | Castelbuono Sicilia | La tua miglior scelta",
+    default: "Hotel Paradiso delle Madonie ★★★ Castelbuono | 23km da Cefalù | Parco Madonie",
     template: "%s | Hotel Paradiso delle Madonie",
   },
   description:
-    "Hotel Paradiso delle Madonie a Castelbuono, nel cuore del Parco delle Madonie. Camere confortevoli, posizione strategica, WiFi gratuito. Scopri l'autentica Sicilia tra storia e natura.",
+    "Hotel 3 stelle a Castelbuono nel cuore del Parco delle Madonie, a 23km da Cefalù. Tra mare e montagna, vicino Castello Ventimiglia, Ypsigrock Festival, borghi siciliani. WiFi, parcheggio, ristorante tipico. Prenota ora!",
   keywords:
-    "hotel castelbuono, hotel madonie, hotel sicilia, paradiso delle madonie, albergo castelbuono, soggiorno madonie, hotel parco madonie, castelbuono sicilia, hotel famiglia sicilia, vacanze madonie, castello ventimiglia, manna castelbuono",
+    "hotel castelbuono, hotel madonie, hotel cefalù montagna, hotel parco madonie, albergo castelbuono, dove dormire castelbuono, hotel 3 stelle sicilia, hotel famiglia madonie, castelbuono sicilia, castello ventimiglia, ypsigrock festival hotel, weekend madonie, trekking madonie, hotel vicino cefalù, borghi sicilia, manna castelbuono, fiasconaro castelbuono, divino festival, funghi fest castelbuono, piano battaglia hotel, gole tiberio hotel, geraci siculo, gangi, petralia soprana, hotel tra mare e montagna sicilia, vacanze natura sicilia, soggiorno romantico madonie, hotel escursioni guidate, transfer aeroporto palermo castelbuono",
   authors: [{ name: "Hotel Paradiso delle Madonie", url: "https://paradisodellemadonie.it" }],
   creator: "Hotel Paradiso delle Madonie",
   publisher: "Hotel Paradiso delle Madonie",
+  category: "Hotel & Accommodation",
+  classification: "Hotel 3 Stelle",
   robots: {
     index: true,
     follow: true,
+    nocache: false,
     googleBot: {
       index: true,
       follow: true,
@@ -41,37 +46,69 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "it_IT",
-    alternateLocale: ["en_US"],
+    alternateLocale: ["en_US", "de_DE", "fr_FR"],
     url: "https://paradisodellemadonie.it",
     siteName: "Hotel Paradiso delle Madonie",
-    title: "Hotel Paradiso delle Madonie | Castelbuono Sicilia",
-    description: "Nel cuore del Parco delle Madonie, la tua miglior scelta per scoprire l'autentica Sicilia",
+    title: "Hotel Paradiso delle Madonie ★★★ | Castelbuono | 23km da Cefalù",
+    description: "Hotel 3 stelle nel Parco delle Madonie a Castelbuono. A 23km da Cefalù, tra mare e montagna. Castello Ventimiglia, Ypsigrock, borghi UNESCO. Prenota la tua esperienza autentica!",
     images: [
       {
         url: "/images/fronte.png",
         width: 1200,
         height: 630,
-        alt: "Hotel Paradiso delle Madonie - Facciata principale",
+        alt: "Hotel Paradiso delle Madonie - Facciata principale a Castelbuono",
+        type: "image/png",
+      },
+      {
+        url: "/images/reception.png",
+        width: 1200,
+        height: 630,
+        alt: "Reception Hotel Paradiso delle Madonie",
+        type: "image/png",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Hotel Paradiso delle Madonie | Castelbuono Sicilia",
-    description: "Nel cuore del Parco delle Madonie, scopri l'autentica Sicilia",
+    site: "@hotelparadisomadonie",
+    creator: "@hotelparadisomadonie",
+    title: "Hotel Paradiso delle Madonie ★★★ | Castelbuono Sicilia",
+    description: "Hotel a Castelbuono nel Parco Madonie, 23km da Cefalù. Tra mare e montagna, vicino Castello Ventimiglia e borghi UNESCO.",
     images: ["/images/fronte.png"],
   },
   verification: {
-    google: "hotel-madonie-verification",
+    google: "your-google-verification-code",
+    yandex: "your-yandex-verification-code",
+    other: {
+      "msvalidate.01": "your-bing-verification-code",
+      "facebook-domain-verification": "your-facebook-verification-code",
+    },
   },
   alternates: {
     canonical: "https://paradisodellemadonie.it",
     languages: {
-      "it-IT": "https://paradisodellemadonie.it/it",
+      "it-IT": "https://paradisodellemadonie.it",
       "en-US": "https://paradisodellemadonie.it/en",
+      "de-DE": "https://paradisodellemadonie.it/de",
+      "fr-FR": "https://paradisodellemadonie.it/fr",
     },
   },
-    generator: 'v0.dev'
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
+  manifest: "/manifest.json",
+  other: {
+    "apple-mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-status-bar-style": "black-translucent",
+    "format-detection": "telephone=no",
+  },
 }
 
 export default function RootLayout({
@@ -82,11 +119,57 @@ export default function RootLayout({
   return (
     <html lang="it" className={`${inter.variable} ${serifFont.variable}`}>
       <head>
+        {/* Theme & Mobile Optimization */}
         <meta name="theme-color" content="#1e1b4b" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="Paradiso Madonie" />
+
+        {/* Geo Location Tags */}
         <meta name="geo.region" content="IT-PA" />
         <meta name="geo.placename" content="Castelbuono, Sicilia" />
         <meta name="geo.position" content="37.9341;14.0436" />
         <meta name="ICBM" content="37.9341, 14.0436" />
+
+        {/* Additional SEO Tags */}
+        <meta name="rating" content="general" />
+        <meta name="revisit-after" content="7 days" />
+        <meta name="distribution" content="global" />
+        <meta name="coverage" content="Worldwide" />
+        <meta name="target" content="all" />
+        <meta name="audience" content="all" />
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+
+        {/* Business Contact */}
+        <meta name="contact" content="info@paradisodellemadonie.it" />
+        <meta name="phone" content="+39 0921 820683" />
+        <meta name="address" content="Via Dante Alighieri, 82, 90013 Castelbuono PA, Italia" />
+
+        {/* Location Specific */}
+        <meta name="locality" content="Castelbuono" />
+        <meta name="region" content="Sicilia" />
+        <meta name="country" content="Italia" />
+        <meta name="postal-code" content="90013" />
+
+        {/* Hotel Specific */}
+        <meta property="hotel:latitude" content="37.9341" />
+        <meta property="hotel:longitude" content="14.0436" />
+        <meta property="hotel:locality" content="Castelbuono" />
+        <meta property="hotel:region" content="PA" />
+        <meta property="hotel:country-name" content="IT" />
+        <meta property="hotel:price_range" content="€€-€€€" />
+        <meta property="hotel:rating" content="4.6" />
+        <meta property="hotel:rating:scale" content="5" />
+
+        {/* DNS Prefetch for Performance */}
+        <link rel="dns-prefetch" href="//www.google-analytics.com" />
+        <link rel="dns-prefetch" href="//www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://www.google-analytics.com" />
+
         <style
           dangerouslySetInnerHTML={{
             __html: `
@@ -98,7 +181,12 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${inter.className} antialiased`}>{children}</body>
+      <body className={`${inter.className} antialiased`}>
+        <LanguageProvider>
+          {children}
+          <CookieBanner />
+        </LanguageProvider>
+      </body>
     </html>
   )
 }

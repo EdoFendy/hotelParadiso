@@ -12,34 +12,51 @@ import NavigationBar from "@/components/navigation-bar"
 import LoadingScreen from "@/components/loading-screen"
 import { LanguageProvider } from "@/contexts/language-context"
 import ScrollAnimationsClient from "@/components/ScrollAnimationsClient"
+import { generateCompleteHomeSchema } from "@/lib/seo-schema"
 
 export const metadata: Metadata = {
-  title: "Hotel Paradiso delle Madonie | Castelbuono Sicilia | La tua miglior scelta",
+  title: "Hotel Paradiso delle Madonie ★★★ Castelbuono | 23km da Cefalù | Tra Mare e Montagna",
   description:
-    "Hotel Paradiso delle Madonie a Castelbuono, nel cuore del Parco delle Madonie. Camere confortevoli, posizione strategica, WiFi gratuito. Scopri l'autentica Sicilia tra storia e natura.",
+    "Hotel 3 stelle a Castelbuono nel Parco delle Madonie. A 23km da Cefalù, vicino Castello Ventimiglia, Ypsigrock Festival, Gole Tiberio, Piano Battaglia. Trekking, borghi UNESCO, gastronomia siciliana. Prenota ora la tua esperienza autentica!",
   keywords:
-    "hotel castelbuono, hotel madonie, hotel sicilia, paradiso delle madonie, albergo castelbuono, soggiorno madonie, hotel parco madonie, castelbuono sicilia, hotel famiglia sicilia, vacanze madonie",
+    "hotel castelbuono, hotel madonie, hotel cefalù montagna, dove dormire castelbuono, hotel 3 stelle sicilia, hotel parco madonie, castelbuono sicilia, castello ventimiglia, ypsigrock festival, weekend madonie, trekking madonie, hotel vicino cefalù, borghi sicilia, manna castelbuono, fiasconaro, divino festival, funghi fest, piano battaglia, gole tiberio, geraci siculo, gangi, petralia soprana, hotel tra mare e montagna, vacanze natura sicilia, soggiorno romantico madonie",
   openGraph: {
-    title: "Hotel Paradiso delle Madonie | Castelbuono Sicilia",
-    description: "Nel cuore del Parco delle Madonie, la tua miglior scelta per scoprire l'autentica Sicilia",
+    title: "Hotel Paradiso delle Madonie ★★★ | Castelbuono | 23km da Cefalù",
+    description: "Hotel a Castelbuono nel Parco Madonie, tra mare e montagna. Castello Ventimiglia, Ypsigrock, borghi UNESCO, trekking. La tua base per scoprire l'autentica Sicilia!",
     type: "website",
     locale: "it_IT",
-    alternateLocale: ["en_US"],
+    alternateLocale: ["en_US", "de_DE", "fr_FR"],
     siteName: "Hotel Paradiso delle Madonie",
+    url: "https://paradisodellemadonie.it",
     images: [
       {
         url: "/images/fronte.png",
         width: 1200,
         height: 630,
-        alt: "Hotel Paradiso delle Madonie - Facciata principale",
+        alt: "Hotel Paradiso delle Madonie - Facciata principale a Castelbuono nel Parco delle Madonie",
+      },
+      {
+        url: "/images/reception.png",
+        width: 1200,
+        height: 630,
+        alt: "Reception accogliente Hotel Paradiso delle Madonie",
       },
     ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@hotelparadisomadonie",
+    title: "Hotel Paradiso delle Madonie ★★★ | Castelbuono Sicilia",
+    description: "Hotel 3 stelle a Castelbuono, Parco Madonie. 23km da Cefalù, tra mare e montagna.",
+    images: ["/images/fronte.png"],
   },
   alternates: {
     canonical: "https://paradisodellemadonie.it",
     languages: {
-      "it-IT": "https://paradisodellemadonie.it/it",
+      "it-IT": "https://paradisodellemadonie.it",
       "en-US": "https://paradisodellemadonie.it/en",
+      "de-DE": "https://paradisodellemadonie.it/de",
+      "fr-FR": "https://paradisodellemadonie.it/fr",
     },
   },
 }
@@ -61,52 +78,11 @@ export default function HomePage() {
       <Footer />
       <ScrollAnimationsClient />
 
-      {/* Schema.org JSON-LD */}
+      {/* Complete Enterprise-Level Schema.org JSON-LD */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Hotel",
-            name: "Hotel Paradiso delle Madonie",
-            description: "Hotel nel cuore del Parco delle Madonie a Castelbuono, Sicilia",
-            url: "https://paradisodellemadonie.it",
-            telephone: "+39 0921 820683",
-            email: "info@paradisodellemadonie.it",
-            address: {
-              "@type": "PostalAddress",
-              streetAddress: "Via Dante Alighieri, 82",
-              addressLocality: "Castelbuono",
-              addressRegion: "Sicilia",
-              postalCode: "90013",
-              addressCountry: "IT",
-            },
-            geo: {
-              "@type": "GeoCoordinates",
-              latitude: "37.9341",
-              longitude: "14.0436",
-            },
-            starRating: {
-              "@type": "Rating",
-              ratingValue: "3",
-              bestRating: "5",
-            },
-            priceRange: "€€",
-            amenityFeature: [
-              { "@type": "LocationFeatureSpecification", name: "WiFi gratuito" },
-              { "@type": "LocationFeatureSpecification", name: "Aria condizionata" },
-              { "@type": "LocationFeatureSpecification", name: "TV satellitare" },
-              { "@type": "LocationFeatureSpecification", name: "Parcheggio privato" },
-              { "@type": "LocationFeatureSpecification", name: "Colazione continentale" },
-              { "@type": "LocationFeatureSpecification", name: "Bar" },
-            ],
-            hasMap: "https://maps.google.com/maps?q=Via+Dante+Alighieri+82+Castelbuono",
-            photo: [
-              "https://paradisodellemadonie.it/images/fronte.png",
-              "https://paradisodellemadonie.it/images/reception.png",
-              "https://paradisodellemadonie.it/images/camera1.jpg",
-            ],
-          }),
+          __html: JSON.stringify(generateCompleteHomeSchema()),
         }}
       />
     </LanguageProvider>

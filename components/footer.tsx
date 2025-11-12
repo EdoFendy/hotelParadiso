@@ -122,9 +122,22 @@ export default function Footer() {
               <Link href="/privacy" className="text-gray-400 hover:text-white text-sm transition-colors font-sans">
                 {t("footer.privacy")}
               </Link>
-              <Link href="/terms" className="text-gray-400 hover:text-white text-sm transition-colors font-sans">
+              <Link href="/cookie-policy" className="text-gray-400 hover:text-white text-sm transition-colors font-sans">
+                Cookie Policy
+              </Link>
+              <Link href="/termini" className="text-gray-400 hover:text-white text-sm transition-colors font-sans">
                 {t("footer.terms")}
               </Link>
+              <button
+                onClick={() => {
+                  if (typeof window !== 'undefined' && (window as any).showCookieBanner) {
+                    (window as any).showCookieBanner()
+                  }
+                }}
+                className="text-gray-400 hover:text-white text-sm transition-colors font-sans cursor-pointer"
+              >
+                Gestisci Cookie
+              </button>
             </div>
           </div>
         </div>
