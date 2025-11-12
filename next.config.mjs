@@ -30,9 +30,6 @@ const nextConfig = {
   // Strict mode
   reactStrictMode: true,
 
-  // SWC Minification
-  swcMinify: true,
-
   // Compiler optimizations
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { generatePageMetadata } from '@/lib/seo-utils'
+import CookiePreferencesButton from '@/components/cookie-preferences-button'
 
 export const metadata: Metadata = generatePageMetadata({
   title: 'Cookie Policy | Hotel Paradiso delle Madonie',
@@ -287,16 +288,7 @@ export default function CookiePolicyPage() {
             <p className="text-gray-700 mb-4">
               Puoi modificare in qualsiasi momento le tue preferenze sui cookie cliccando sul pulsante sottostante:
             </p>
-            <button
-              onClick={() => {
-                if (typeof window !== 'undefined' && (window as any).showCookieBanner) {
-                  (window as any).showCookieBanner()
-                }
-              }}
-              className="bg-amber-500 hover:bg-amber-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
-            >
-              🍪 Gestisci Preferenze Cookie
-            </button>
+            <CookiePreferencesButton />
           </section>
 
           {/* Privacy Policy */}
