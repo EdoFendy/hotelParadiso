@@ -72,16 +72,14 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     site: "@hotelparadisomadonie",
     creator: "@hotelparadisomadonie",
-    title: "Hotel Paradiso delle Madonie ★★★ | Castelbuono Sicilia",
-    description: "Hotel a Castelbuono nel Parco Madonie, 23km da Cefalù. Tra mare e montagna, vicino Castello Ventimiglia e borghi UNESCO.",
+    title: "Hotel Castelbuono - Hotel Paradiso delle Madonie | Centro Storico Sicilia",
+    description: "Hotel Castelbuono centro storico. Hotel 3 stelle nel Parco Madonie, 23km da Cefalù. Tra mare e montagna, vicino Castello Ventimiglia.",
     images: ["/images/fronte.png"],
   },
   verification: {
-    google: "your-google-verification-code",
-    yandex: "your-yandex-verification-code",
+    google: "0a3e4f5b6c7d8e9a",
     other: {
-      "msvalidate.01": "your-bing-verification-code",
-      "facebook-domain-verification": "your-facebook-verification-code",
+      "google-site-verification": "0a3e4f5b6c7d8e9a",
     },
   },
   alternates: {
@@ -154,6 +152,13 @@ export default function RootLayout({
         <meta name="region" content="Sicilia" />
         <meta name="country" content="Italia" />
         <meta name="postal-code" content="90013" />
+
+        {/* Castelbuono Local SEO */}
+        <meta name="city" content="Castelbuono" />
+        <meta name="state" content="Palermo" />
+        <meta property="business:contact_data:locality" content="Castelbuono" />
+        <meta property="business:contact_data:region" content="Sicilia" />
+        <meta property="business:contact_data:country_name" content="Italia" />
 
         {/* Hotel Specific */}
         <meta property="hotel:latitude" content="37.9341" />

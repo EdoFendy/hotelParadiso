@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!-- Homepage con immagini principali -->
+  <url>
+    <loc>https://paradisodellemadonie.it/</loc>
+    <image:image>
+      <image:loc>https://paradisodellemadonie.it/images/fronte.png</image:loc>
+      <image:caption>Hotel Paradiso delle Madonie - Facciata principale nel centro storico di Castelbuono</image:caption>
+      <image:title>Hotel Castelbuono - Facciata Hotel Paradiso delle Madonie</image:title>
+      <image:geo_location>Castelbuono, Sicilia, Italia</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://paradisodellemadonie.it/images/reception.png</image:loc>
+      <image:caption>Reception Hotel Paradiso delle Madonie Castelbuono</image:caption>
+      <image:title>Reception Hotel Castelbuono</image:title>
+      <image:geo_location>Castelbuono, Sicilia, Italia</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://paradisodellemadonie.it/images/reception2.png</image:loc>
+      <image:caption>Area reception e lounge Hotel Castelbuono</image:caption>
+      <image:title>Lounge Hotel Paradiso Castelbuono</image:title>
+      <image:geo_location>Castelbuono, Sicilia, Italia</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://paradisodellemadonie.it/images/ingresso-hotel.jpg</image:loc>
+      <image:caption>Ingresso Hotel Paradiso delle Madonie nel centro di Castelbuono</image:caption>
+      <image:title>Ingresso Hotel Castelbuono</image:title>
+      <image:geo_location>Castelbuono, Sicilia, Italia</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://paradisodellemadonie.it/images/logo.png</image:loc>
+      <image:caption>Logo Hotel Paradiso delle Madonie Castelbuono</image:caption>
+      <image:title>Hotel Paradiso Castelbuono Logo</image:title>
+    </image:image>
+  </url>
+
+  <!-- Pagina Camere -->
+  <url>
+    <loc>https://paradisodellemadonie.it/camere</loc>
+    <image:image>
+      <image:loc>https://paradisodellemadonie.it/images/camera1.jpg</image:loc>
+      <image:caption>Camera Standard Hotel Castelbuono con vista panoramica sulle Madonie</image:caption>
+      <image:title>Camera Hotel Castelbuono - Hotel Paradiso delle Madonie</image:title>
+      <image:geo_location>Castelbuono, Sicilia, Italia</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://paradisodellemadonie.it/images/camera2.jpg</image:loc>
+      <image:caption>Camera Doppia Hotel Paradiso Castelbuono</image:caption>
+      <image:title>Camera Doppia Hotel Castelbuono</image:title>
+      <image:geo_location>Castelbuono, Sicilia, Italia</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://paradisodellemadonie.it/images/camera3.jpg</image:loc>
+      <image:caption>Camera Tripla Hotel Castelbuono con servizi moderni</image:caption>
+      <image:title>Camera Tripla Hotel Paradiso Castelbuono</image:title>
+      <image:geo_location>Castelbuono, Sicilia, Italia</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://paradisodellemadonie.it/images/bagno.png</image:loc>
+      <image:caption>Bagno privato camere Hotel Castelbuono</image:caption>
+      <image:title>Bagno Hotel Paradiso Castelbuono</image:title>
+      <image:geo_location>Castelbuono, Sicilia, Italia</image:geo_location>
+    </image:image>
+  </url>
+
+  <!-- Pagina Territorio -->
+  <url>
+    <loc>https://paradisodellemadonie.it/territorio</loc>
+    <image:image>
+      <image:loc>https://paradisodellemadonie.it/images/castello.png</image:loc>
+      <image:caption>Castello Ventimiglia a Castelbuono - 2 minuti a piedi dall'hotel</image:caption>
+      <image:title>Castello Ventimiglia Castelbuono</image:title>
+      <image:geo_location>Castelbuono, Sicilia, Italia</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://paradisodellemadonie.it/images/parcomadonie.png</image:loc>
+      <image:caption>Parco delle Madonie - Escursioni naturalistiche da Castelbuono</image:caption>
+      <image:title>Parco delle Madonie vicino Hotel Castelbuono</image:title>
+      <image:geo_location>Parco delle Madonie, Sicilia, Italia</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://paradisodellemadonie.it/images/fiasconaro.png</image:loc>
+      <image:caption>Fiasconaro Pasticceria storica di Castelbuono - 3 minuti dall'hotel</image:caption>
+      <image:title>Fiasconaro Castelbuono</image:title>
+      <image:geo_location>Castelbuono, Sicilia, Italia</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://paradisodellemadonie.it/images/manna.png</image:loc>
+      <image:caption>Museo della Manna a Castelbuono</image:caption>
+      <image:title>Museo della Manna Castelbuono</image:title>
+      <image:geo_location>Castelbuono, Sicilia, Italia</image:geo_location>
+    </image:image>
+  </url>
+
+</urlset>

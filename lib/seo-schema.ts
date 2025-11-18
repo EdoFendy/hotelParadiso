@@ -21,9 +21,10 @@ export const generateHotelSchema = () => ({
   ],
   logo: {
     "@type": "ImageObject",
-    url: "https://paradisodellemadonie.it/placeholder-logo.png",
-    width: 250,
-    height: 100
+    url: "https://paradisodellemadonie.it/images/logo.png",
+    width: 400,
+    height: 200,
+    caption: "Hotel Paradiso delle Madonie Castelbuono Logo"
   },
   address: {
     "@type": "PostalAddress",
@@ -274,6 +275,54 @@ export const generateFAQSchema = () => ({
       acceptedAnswer: {
         "@type": "Answer",
         text: "Assolutamente sì! Offriamo camere familiari, menu bambini, e organizziamo escursioni family-friendly come il Bosco di Pomieri e le Gole di Tiberio. Il territorio offre numerose attività didattiche nei musei e parchi avventura."
+      }
+    },
+    {
+      "@type": "Question",
+      name: "Qual è il miglior hotel a Castelbuono?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "L'Hotel Paradiso delle Madonie è considerato il miglior hotel a Castelbuono per posizione centrale (Via Dante Alighieri 82), vicinanza al Castello Ventimiglia (2 minuti a piedi), WiFi gratuito, colazione inclusa, e parcheggio privato. Rating 4.6/5 su 89 recensioni."
+      }
+    },
+    {
+      "@type": "Question",
+      name: "Dove dormire a Castelbuono centro?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Hotel Paradiso delle Madonie si trova nel cuore del centro storico di Castelbuono in Via Dante Alighieri 82. Posizione ideale a 2 minuti a piedi dal Castello Ventimiglia, 3 minuti dalla Pasticceria Fiasconaro e da tutti i servizi del centro."
+      }
+    },
+    {
+      "@type": "Question",
+      name: "Quanto costa un hotel a Castelbuono?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "All'Hotel Paradiso delle Madonie le camere partono da €70/notte con colazione inclusa, WiFi gratis e parcheggio. Offriamo pacchetti weekend da €280 per coppia (2 notti + cena tipica). Durante Ypsigrock Festival i prezzi sono €150/notte."
+      }
+    },
+    {
+      "@type": "Question",
+      name: "Hotel Castelbuono per Ypsigrock Festival?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "L'Hotel Paradiso delle Madonie è l'hotel ufficiale consigliato per Ypsigrock Festival (7-10 agosto 2025). Siamo a 300 metri da Piazza Castello dove si svolge il festival. Prenotazione anticipata obbligatoria, sold out frequente."
+      }
+    },
+    {
+      "@type": "Question",
+      name: "Hotel a Castelbuono vicino Castello Ventimiglia?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Hotel Paradiso delle Madonie è l'hotel più vicino al Castello Ventimiglia di Castelbuono: solo 2 minuti a piedi (150 metri). Posizione perfetta per visitare il castello normanno del 1316 e la Cappella Palatina con stucchi Serpotta."
+      }
+    },
+    {
+      "@type": "Question",
+      name: "Hotel 3 stelle a Castelbuono?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Hotel Paradiso delle Madonie è un hotel 3 stelle a Castelbuono con 18 camere dotate di aria condizionata, TV satellitare, WiFi gratis, bagno privato. Include colazione continentale, parcheggio gratuito, bar lounge e ristorante di cucina siciliana."
       }
     }
   ]

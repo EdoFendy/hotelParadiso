@@ -1,0 +1,103 @@
+{
+  "name": "Hotel Paradiso delle Madonie Castelbuono",
+  "short_name": "Hotel Paradiso",
+  "description": "Hotel Castelbuono centro storico. Hotel 3 stelle nel Parco delle Madonie, Sicilia. Camere confortevoli, WiFi gratis, colazione inclusa.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1e1b4b",
+  "theme_color": "#1e1b4b",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "it",
+  "dir": "ltr",
+  "categories": ["travel", "hotel", "hospitality", "tourism"],
+  "icons": [
+    {
+      "src": "/icon/favicon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon/web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon/web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/images/fronte.png",
+      "sizes": "1200x630",
+      "type": "image/png",
+      "label": "Hotel Paradiso delle Madonie - Facciata"
+    },
+    {
+      "src": "/images/camera1.jpg",
+      "sizes": "1200x800",
+      "type": "image/jpeg",
+      "label": "Camera Hotel Castelbuono"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Prenota ora",
+      "short_name": "Prenota",
+      "description": "Prenota la tua camera",
+      "url": "/#prenota",
+      "icons": [
+        {
+          "src": "/icon/favicon-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Contatti",
+      "short_name": "Contatti",
+      "description": "Contatta l'hotel",
+      "url": "/contatti",
+      "icons": [
+        {
+          "src": "/icon/favicon-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Camere",
+      "short_name": "Camere",
+      "description": "Scopri le nostre camere",
+      "url": "/camere",
+      "icons": [
+        {
+          "src": "/icon/favicon-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "prefer_related_applications": false,
+  "related_applications": []
+}
