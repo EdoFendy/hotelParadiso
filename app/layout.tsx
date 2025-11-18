@@ -19,13 +19,13 @@ const serifFont = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://paradisodellemadonie.it"),
   title: {
-    default: "Hotel Paradiso delle Madonie ★★★ Castelbuono | 23km da Cefalù | Parco Madonie",
-    template: "%s | Hotel Paradiso delle Madonie",
+    default: "Hotel Castelbuono - Hotel Paradiso delle Madonie | Centro Storico Castelbuono Sicilia",
+    template: "%s | Hotel Paradiso Madonie Castelbuono",
   },
   description:
-    "Hotel 3 stelle a Castelbuono nel cuore del Parco delle Madonie, a 23km da Cefalù. Tra mare e montagna, vicino Castello Ventimiglia, Ypsigrock Festival, borghi siciliani. WiFi, parcheggio, ristorante tipico. Prenota ora!",
+    "Hotel Castelbuono centro storico. Hotel Paradiso delle Madonie, 3 stelle nel cuore di Castelbuono. A 23km da Cefalù, vicino Castello Ventimiglia. Camere confortevoli, WiFi gratis, colazione inclusa. Miglior hotel Castelbuono per Ypsigrock.",
   keywords:
-    "hotel castelbuono, hotel madonie, hotel cefalù montagna, hotel parco madonie, albergo castelbuono, dove dormire castelbuono, hotel 3 stelle sicilia, hotel famiglia madonie, castelbuono sicilia, castello ventimiglia, ypsigrock festival hotel, weekend madonie, trekking madonie, hotel vicino cefalù, borghi sicilia, manna castelbuono, fiasconaro castelbuono, divino festival, funghi fest castelbuono, piano battaglia hotel, gole tiberio hotel, geraci siculo, gangi, petralia soprana, hotel tra mare e montagna sicilia, vacanze natura sicilia, soggiorno romantico madonie, hotel escursioni guidate, transfer aeroporto palermo castelbuono",
+    "hotel castelbuono, hotel castelbuono centro, hotel castelbuono sicilia, albergo castelbuono, hotel paradiso madonie, dove dormire castelbuono, hotel castello ventimiglia castelbuono, hotel ypsigrock castelbuono, hotel 3 stelle castelbuono, pensione castelbuono, bed and breakfast castelbuono, hotel economico castelbuono, hotel centro storico castelbuono, alloggio castelbuono, pernottamento castelbuono, hotel madonie, hotel parco madonie, hotel vicino cefalù, hotel tra mare e montagna, castelbuono dove dormire, castelbuono alloggio, castelbuono hotel centro, migliore hotel castelbuono, hotel consigliato castelbuono",
   authors: [{ name: "Hotel Paradiso delle Madonie", url: "https://paradisodellemadonie.it" }],
   creator: "Hotel Paradiso delle Madonie",
   publisher: "Hotel Paradiso delle Madonie",
@@ -48,9 +48,9 @@ export const metadata: Metadata = {
     locale: "it_IT",
     alternateLocale: ["en_US", "de_DE", "fr_FR"],
     url: "https://paradisodellemadonie.it",
-    siteName: "Hotel Paradiso delle Madonie",
-    title: "Hotel Paradiso delle Madonie ★★★ | Castelbuono | 23km da Cefalù",
-    description: "Hotel 3 stelle nel Parco delle Madonie a Castelbuono. A 23km da Cefalù, tra mare e montagna. Castello Ventimiglia, Ypsigrock, borghi UNESCO. Prenota la tua esperienza autentica!",
+    siteName: "Hotel Paradiso delle Madonie Castelbuono",
+    title: "Hotel Castelbuono - Hotel Paradiso delle Madonie | Centro Storico",
+    description: "Hotel Castelbuono centro storico. Hotel Paradiso delle Madonie, albergo 3 stelle nel cuore di Castelbuono Sicilia. Camere confortevoli, WiFi, colazione. Miglior hotel per Ypsigrock e Castello Ventimiglia.",
     images: [
       {
         url: "/images/fronte.png",
