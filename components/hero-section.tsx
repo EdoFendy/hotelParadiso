@@ -1,122 +1,211 @@
 "use client"
 
+import { useMemo } from "react"
 import { motion } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { ChevronDown, MapPin } from "lucide-react"
 import Image from "next/image"
+import { CalendarCheck2, ChevronDown, MapPin, ShieldCheck, Sparkles, Star } from "lucide-react"
 import { useLanguage } from "@/contexts/language-context"
 
 export default function HeroSection() {
-  const { t } = useLanguage()
+  const { language, t } = useLanguage()
 
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href)
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" })
-    }
+  const copy = useMemo(
+    () =>
+      language === "it"
+        ? {
+          eyebrow: "Hotel Paradiso delle Madonie",
+          title: "Hotel a Castelbuono centro storico",
+          description:
+            "Alloggio comodo per dormire a Castelbuono e visitare le Madonie senza caos: camere confortevoli, contatto diretto e assistenza h24.",
+          primaryCta: "Verifica disponibilità",
+          secondaryCta: "Scopri le camere",
+          directNote: "Prenotazione diretta: risposta rapida via WhatsApp o telefono.",
+          trust: [
+            { icon: MapPin, text: "Centro storico" },
+            { icon: MapPin, text: "A 23 km da Cefalù" },
+            { icon: ShieldCheck, text: "Wi-Fi + colazione inclusi" },
+          ],
+          ratingText: "Valutazione pubblica su Google Maps",
+          location: "Castelbuono, Parco delle Madonie",
+        }
+        : {
+          eyebrow: "Hotel Paradiso delle Madonie",
+          title: "Hotel in Castelbuono historic center, between Madonie and Cefalu.",
+          description:
+            "A strategic base to explore the Madonie area and reach Cefalu without friction: comfortable rooms, direct contact and human support.",
+          primaryCta: "Check availability",
+          secondaryCta: "Explore rooms",
+          directNote: "Direct booking: fast support via WhatsApp or phone.",
+          trust: [
+            { icon: MapPin, text: "Historic center" },
+            { icon: MapPin, text: "23 km from Cefalu" },
+            { icon: ShieldCheck, text: "Wi-Fi + breakfast included" },
+          ],
+          ratingText: "Public rating on Google Maps",
+          location: "Castelbuono, Madonie Park",
+        },
+    [language],
+  )
+
+  const scrollToSection = (id: string) => {
+    const node = document.getElementById(id)
+    if (!node) return
+    node.scrollIntoView({ behavior: "smooth", block: "start" })
   }
 
   return (
-    <section id="home" className="relative h-screen overflow-hidden pt-44">
+    <section id="home" className="relative isolate min-h-[100svh] overflow-hidden">
       {/* Background Image */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 -z-20">
         <Image
           src="/images/fronte.png"
-          alt="Hotel Paradiso delle Madonie - Vista frontale"
+          alt="Hotel a Castelbuono centro storico - Hotel Paradiso delle Madonie"
           fill
-          className="object-cover"
           priority
+          sizes="100vw"
+          className="object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80" />
+        {/* Premium overlay with depth */}
+        <div className="absolute inset-0 overlay-hero" />
+        <div className="absolute inset-0 overlay-warm-glow" />
       </div>
 
       {/* Content */}
-      <div className="relative z-10 h-full flex items-center justify-center text-center text-white">
-        <div className="max-w-4xl mx-auto px-6">
+      <div className="container-shell flex min-h-[100svh] items-center py-32 sm:py-36 lg:py-40">
+        <div className="max-w-3xl">
+          {/* Eyebrow */}
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, delay: 0.5, ease: "easeOut" }}
+            transition={{ duration: 0.5 }}
           >
-            <motion.h1
-              className="text-5xl md:text-7xl lg:text-8xl font-serif mb-8 text-white drop-shadow-2xl"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1.5, delay: 0.8 }}
-            >
-              <span className="text-white">{t("hero.title")}</span>
-              <span className="block text-3xl md:text-4xl font-serif text-amber-400 mt-4 drop-shadow-lg">
-                {t("hero.subtitle")}
-              </span>
-            </motion.h1>
-
-            <motion.div
-              initial={{ width: 0 }}
-              animate={{ width: "200px" }}
-              transition={{ duration: 1, delay: 1.2 }}
-              className="h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent mx-auto mb-8"
-            />
+            <span className="eyebrow-light">
+              <Sparkles className="h-3.5 w-3.5" />
+              {copy.eyebrow}
+            </span>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 1.8 }}
-            className="mb-16"
-          >
-            <p className="text-xl md:text-2xl font-sans leading-relaxed mb-8 max-w-3xl mx-auto text-white drop-shadow-lg">
-              {t("hero.description")}
-            </p>
-
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-              <Button
-                size="lg"
-                onClick={() => scrollToSection("#camere")}
-                className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-slate-900 px-8 py-4 text-lg font-sans transition-all duration-300"
-              >
-                {t("hero.discover")}
-              </Button>
-
-              <Button
-                size="lg"
-                onClick={() => scrollToSection("#contatti")}
-                className="bg-slate-900 hover:bg-black text-white px-8 py-4 text-lg font-sans border-2 border-slate-900 transition-all duration-300"
-              >
-                {t("hero.contact")}
-              </Button>
-            </div>
-          </motion.div>
-
-          {/* Location Info */}
-          <motion.div
+          {/* Headline */}
+          <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 2 }}
-            className="flex items-center justify-center space-x-2 mb-8"
+            transition={{ duration: 0.7, delay: 0.1 }}
+            className="text-balance text-white"
+            style={{
+              fontSize: "clamp(2.25rem, 5vw, 4.5rem)",
+              lineHeight: "var(--leading-tight)",
+              letterSpacing: "var(--tracking-tight)",
+            }}
           >
-            <MapPin className="h-5 w-5 text-amber-400" />
-            <span className="text-lg font-sans">{t("hero.location")}</span>
+            {copy.title}
+          </motion.h1>
+
+          {/* Description */}
+          <motion.p
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="mt-6 max-w-xl text-lg"
+            style={{
+              color: "rgba(255, 255, 255, 0.85)",
+              lineHeight: "var(--leading-relaxed)",
+            }}
+          >
+            {copy.description}
+          </motion.p>
+
+          {/* CTAs */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="mt-10 flex flex-wrap items-center gap-3"
+          >
+            <button
+              onClick={() => scrollToSection("prenota")}
+              className="cta-pill-accent"
+            >
+              <CalendarCheck2 className="h-4 w-4" />
+              {copy.primaryCta}
+            </button>
+            <button
+              onClick={() => scrollToSection("camere")}
+              className="cta-pill-outline-light"
+            >
+              {copy.secondaryCta}
+            </button>
           </motion.div>
 
-          {/* Scroll Indicator */}
+          {/* Social proof row */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 2.5 }}
-            className="mt-8 flex justify-center"
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.45 }}
+            className="mt-10 flex flex-wrap items-center gap-6"
           >
-            <motion.div
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
-              className="flex flex-col items-center cursor-pointer"
-              onClick={() => scrollToSection("#hotel")}
-            >
-              <span className="text-sm font-sans mb-4">{t("hero.scroll")}</span>
-              <ChevronDown className="h-6 w-6" />
-            </motion.div>
+            {/* Rating block */}
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-0.5">
+                {[1, 2, 3, 4, 5].map((i) => (
+                  <Star
+                    key={i}
+                    className={`h-4 w-4 ${i <= 4 ? "fill-current" : ""}`}
+                    style={{ color: i <= 4 ? "var(--accent-400)" : "rgba(255,255,255,0.3)" }}
+                  />
+                ))}
+              </div>
+              <div>
+                <span
+                  className="text-sm font-semibold"
+                  style={{ color: "var(--accent-300)" }}
+                >
+                  4.3/5
+                </span>
+                <span
+                  className="ml-1.5 text-sm"
+                  style={{ color: "rgba(255,255,255,0.6)" }}
+                >
+                  — {copy.ratingText}
+                </span>
+              </div>
+            </div>
+
+            {/* Divider */}
+            <div
+              className="hidden h-6 sm:block"
+              style={{
+                width: "1px",
+                backgroundColor: "rgba(255,255,255,0.2)",
+              }}
+            />
+
+            {/* Trust chips */}
+            <div className="flex flex-wrap gap-2">
+              {copy.trust.map((item) => (
+                <span key={item.text} className="trust-chip">
+                  <item.icon className="h-3.5 w-3.5" style={{ color: "var(--accent-300)" }} />
+                  {item.text}
+                </span>
+              ))}
+            </div>
           </motion.div>
         </div>
       </div>
+
+      {/* Scroll indicator */}
+      <button
+        onClick={() => scrollToSection("hotel")}
+        className="absolute bottom-8 left-1/2 z-10 hidden -translate-x-1/2 items-center gap-2 rounded-full px-5 py-2.5 text-xs font-semibold uppercase text-white backdrop-blur-sm md:inline-flex"
+        style={{
+          letterSpacing: "var(--tracking-wider)",
+          background: "rgba(255,255,255,0.08)",
+          border: "1px solid rgba(255,255,255,0.12)",
+          transitionDuration: "var(--duration-normal)",
+        }}
+      >
+        <span>{t("hero.scroll")}</span>
+        <ChevronDown className="h-4 w-4 animate-float-y" />
+      </button>
     </section>
   )
 }

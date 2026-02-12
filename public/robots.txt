@@ -1,45 +1,32 @@
-# robots.txt per Hotel Paradiso delle Madonie - Castelbuono
-# Ottimizzato per massima indicizzazione Google
+# robots.txt - Hotel Paradiso delle Madonie
 
-# Allow all search engines
 User-agent: *
 Allow: /
-
-# Disallow admin and private paths
 Disallow: /api/
 Disallow: /admin/
-Disallow: /_next/webpack-hmr
-Disallow: /_next/static/webpack/
+Disallow: /private/
+Disallow: /dashboard/
+Disallow: /checkout/
 
-# Allow crawling of all static assets
-Allow: /images/
-Allow: /icon/
-Allow: /_next/static/
-Allow: /_next/image
+# Block specific AI crawlers
+User-agent: GPTBot
+Disallow: /
 
-# Specific rules for Google
-User-agent: Googlebot
-Allow: /
-Crawl-delay: 0
+User-agent: CCBot
+Disallow: /
 
-# Specific rules for Google Images
-User-agent: Googlebot-Image
-Allow: /images/
-Allow: /icon/
+User-agent: anthropic-ai
+Disallow: /
 
-# Bing
-User-agent: Bingbot
-Allow: /
-Crawl-delay: 0
+User-agent: Claude-Web
+Disallow: /
 
-# Yandex
-User-agent: Yandex
-Allow: /
-Crawl-delay: 1
+User-agent: Bytespider
+Disallow: /
 
-# Sitemap location
+User-agent: PetalBot
+Disallow: /
+
 Sitemap: https://paradisodellemadonie.it/sitemap.xml
 Sitemap: https://paradisodellemadonie.it/sitemap-images.xml
-
-# Host preference (canonical domain)
 Host: https://paradisodellemadonie.it

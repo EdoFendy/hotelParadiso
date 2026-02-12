@@ -2,14 +2,22 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { generatePageMetadata } from '@/lib/seo-utils'
 
-export const metadata: Metadata = generatePageMetadata({
-  title: 'Termini e Condizioni | Hotel Paradiso delle Madonie',
-  description: 'Termini e condizioni di utilizzo del sito e prenotazione - Hotel Paradiso delle Madonie, Castelbuono.',
-  path: '/termini',
-  type: 'website',
-})
+export const metadata: Metadata = {
+  ...generatePageMetadata({
+    title: 'Termini e Condizioni | Hotel Paradiso delle Madonie',
+    description: 'Termini e condizioni di utilizzo del sito e prenotazione - Hotel Paradiso delle Madonie, Castelbuono.',
+    path: '/termini',
+    type: 'website',
+  }),
+  robots: {
+    index: false,
+    follow: true,
+  },
+}
 
 export default function TermsPage() {
+  const vatId = process.env.NEXT_PUBLIC_HOTEL_VAT_ID?.trim() || process.env.HOTEL_VAT_ID?.trim()
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -20,7 +28,7 @@ export default function TermsPage() {
           </Link>
           <h1 className="text-4xl font-serif mb-4">Termini e Condizioni</h1>
           <p className="text-gray-300">Condizioni generali di utilizzo del sito e di prenotazione</p>
-          <p className="text-sm text-gray-400 mt-2">Ultimo aggiornamento: 12 novembre 2025</p>
+          <p className="text-sm text-gray-400 mt-2">Ultimo aggiornamento: 11 febbraio 2026</p>
         </div>
       </div>
 
@@ -43,7 +51,9 @@ export default function TermsPage() {
               <p className="font-semibold text-slate-900">Hotel Paradiso delle Madonie</p>
               <p className="text-gray-700">Via Dante Alighieri, 82</p>
               <p className="text-gray-700">90013 Castelbuono (PA), Sicilia - Italia</p>
-              <p className="text-gray-700 mt-2"><strong>P.IVA:</strong> [Inserire P.IVA]</p>
+              <p className="text-gray-700 mt-2">
+                <strong>P.IVA:</strong> {vatId || "dato fiscale disponibile su richiesta scritta"}
+              </p>
               <p className="text-gray-700"><strong>Email:</strong> info@paradisodellemadonie.it</p>
               <p className="text-gray-700"><strong>Telefono:</strong> +39 0921 820683</p>
             </div>
@@ -59,6 +69,7 @@ export default function TermsPage() {
               <li>La prenotazione si intende confermata solo dopo ricezione di conferma scritta da parte dell'hotel</li>
               <li>Per confermare la prenotazione potrebbe essere richiesto il versamento di un acconto</li>
               <li>L'hotel si riserva il diritto di rifiutare prenotazioni in caso di mancata disponibilità</li>
+              <li>Per i servizi di alloggio con data o periodo specifico non si applica il diritto di recesso di 14 giorni (art. 59, comma 1, lett. n, Codice del Consumo)</li>
             </ul>
 
             <h3 className="text-xl font-semibold text-slate-800 mb-3">3.2 Check-in e Check-out</h3>
@@ -72,11 +83,12 @@ export default function TermsPage() {
 
             <h3 className="text-xl font-semibold text-slate-800 mb-3">3.3 Tariffe e Pagamenti</h3>
             <ul className="list-disc list-inside space-y-2 text-gray-700">
-              <li>Le tariffe sono espresse in Euro (€) e includono IVA</li>
-              <li><strong>Incluso:</strong> colazione continentale, WiFi, parcheggio privato</li>
+              <li>Le tariffe sono espresse in Euro (€), includono IVA e piccola colazione, salvo diversa indicazione</li>
+              <li>Le tariffe dirette pubblicate sul sito applicano uno sconto del 10% sul tariffario ufficiale</li>
+              <li>Le tariffe su canali terzi possono differire in base a regole commerciali, promozioni e condizioni del canale</li>
               <li><strong>Non incluso:</strong> tassa di soggiorno (se applicabile secondo normativa comunale)</li>
-              <li><strong>Metodi di pagamento accettati:</strong> contanti, carte di credito/debito (Visa, Mastercard, AmEx), bonifico bancario</li>
-              <li>Il saldo completo è richiesto al check-in o secondo accordi specifici</li>
+              <li>I metodi di pagamento disponibili vengono confermati al momento della prenotazione</li>
+              <li>Il saldo è dovuto secondo le condizioni indicate nella conferma di prenotazione</li>
             </ul>
           </section>
 
@@ -88,28 +100,22 @@ export default function TermsPage() {
               <div className="border-l-4 border-green-500 pl-4">
                 <h4 className="font-semibold text-slate-800 mb-2">✓ Cancellazione Gratuita</h4>
                 <p className="text-gray-700">
-                  La cancellazione è <strong>gratuita fino a 7 giorni prima</strong> della data di arrivo prevista. L'eventuale acconto versato verrà rimborsato integralmente entro 10 giorni lavorativi.
+                  La cancellazione è <strong>gratuita fino a 2 giorni prima</strong> della data di arrivo prevista.
                 </p>
               </div>
 
               <div className="border-l-4 border-amber-500 pl-4">
-                <h4 className="font-semibold text-slate-800 mb-2">⚠️ Cancellazione con Penale</h4>
-                <ul className="list-disc list-inside space-y-1 text-gray-700">
-                  <li><strong>Da 6 a 3 giorni prima:</strong> penale del 50% dell'importo totale</li>
-                  <li><strong>Entro 2 giorni o no-show:</strong> penale del 100% dell'importo totale</li>
-                </ul>
+                <h4 className="font-semibold text-slate-800 mb-2">⚠️ Cancellazione oltre il termine</h4>
+                <p className="text-gray-700">
+                  Per cancellazioni o modifiche effettuate oltre tale termine viene addebitato il costo della prima notte.
+                </p>
               </div>
 
-              <div className="border-l-4 border-purple-500 pl-4">
-                <h4 className="font-semibold text-slate-800 mb-2">🎉 Periodi Speciali ed Eventi</h4>
-                <p className="text-gray-700 mb-2">
-                  Durante periodi di alta stagione e eventi speciali (es. Ypsigrock Festival, Ferragosto, Natale), potrebbero applicarsi condizioni di cancellazione diverse:
+              <div className="border-l-4 border-red-500 pl-4">
+                <h4 className="font-semibold text-slate-800 mb-2">✕ Mancata cancellazione (no-show)</h4>
+                <p className="text-gray-700">
+                  In caso di no-show viene addebitato l'intero importo del soggiorno.
                 </p>
-                <ul className="list-disc list-inside text-gray-700">
-                  <li>Cancellazione gratuita fino a 14 giorni prima</li>
-                  <li>Penale 100% per cancellazioni successive o no-show</li>
-                  <li>Le condizioni specifiche verranno comunicate al momento della prenotazione</li>
-                </ul>
               </div>
             </div>
 
@@ -123,9 +129,10 @@ export default function TermsPage() {
             <h2 className="text-2xl font-serif text-slate-900 mb-4">5. Modifiche alla Prenotazione</h2>
             <ul className="list-disc list-inside space-y-2 text-gray-700">
               <li>Le modifiche alle date o al tipo di camera sono soggette a disponibilità</li>
-              <li>Modifiche gratuite se richieste almeno 7 giorni prima del check-in</li>
-              <li>Modifiche successive potrebbero comportare penali o differenze tariffarie</li>
-              <li>L'hotel si riserva di accettare o rifiutare modifiche sostanziali</li>
+              <li>Le richieste di modifica devono essere inviate per iscritto via email o WhatsApp</li>
+              <li>Se la modifica avviene entro la finestra di cancellazione gratuita, non si applicano penali; restano eventuali differenze tariffarie</li>
+              <li>Fuori dalla finestra di cancellazione gratuita, possono applicarsi gli addebiti previsti dalla sezione 4</li>
+              <li>L'hotel conferma o rifiuta la modifica in base alla disponibilità reale</li>
             </ul>
           </section>
 
@@ -188,7 +195,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-2xl font-serif text-slate-900 mb-4">11. Legge Applicabile e Foro Competente</h2>
             <p className="text-gray-700 leading-relaxed">
-              I presenti Termini e Condizioni sono regolati dalla legge italiana. Per qualsiasi controversia è competente esclusivamente il Foro di Termini Imerese (PA), salvo diversa norma inderogabile di legge.
+              I presenti Termini e Condizioni sono regolati dalla legge italiana. Per i consumatori resta fermo il foro del luogo di residenza o domicilio del consumatore, ove previsto da norme inderogabili. Nei rapporti tra professionisti, salvo diverso accordo scritto, è competente il Foro di Termini Imerese (PA).
             </p>
           </section>
 
@@ -204,21 +211,13 @@ export default function TermsPage() {
           <section>
             <h2 className="text-2xl font-serif text-slate-900 mb-4">13. Risoluzione delle Controversie</h2>
             <p className="text-gray-700 leading-relaxed mb-4">
-              In caso di contestazioni o reclami, l'ospite è invitato a contattare direttamente la direzione dell'hotel per una risoluzione amichevole. In alternativa, è possibile ricorrere a:
+              In caso di contestazioni o reclami, l'ospite è invitato a contattare direttamente la direzione dell'hotel per una risoluzione amichevole.
             </p>
             <div className="bg-blue-50 p-4 rounded-lg">
-              <p className="font-semibold text-slate-800 mb-2">Piattaforma ODR (Online Dispute Resolution)</p>
+              <p className="font-semibold text-slate-800 mb-2">ADR e strumenti disponibili</p>
               <p className="text-gray-700 text-sm mb-2">
-                Per consumatori UE, risoluzione online delle controversie:
+                Dal 20 luglio 2025 la piattaforma ODR UE non è più operativa (Regolamento (UE) 2024/3228). Restano utilizzabili gli organismi ADR previsti dalla normativa italiana ed europea, oltre agli ordinari strumenti giudiziali.
               </p>
-              <a
-                href="https://ec.europa.eu/consumers/odr"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-600 hover:underline text-sm"
-              >
-                https://ec.europa.eu/consumers/odr
-              </a>
             </div>
           </section>
 

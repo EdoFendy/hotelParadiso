@@ -1,236 +1,215 @@
 "use client"
 
-import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { X, ChevronLeft, ChevronRight } from "lucide-react"
+import { useMemo } from "react"
+import { motion } from "framer-motion"
 import Image from "next/image"
+import { Camera } from "lucide-react"
+import { useState } from "react"
+import { AnimatePresence } from "framer-motion"
+import { ChevronLeft, ChevronRight, X } from "lucide-react"
 import { useLanguage } from "@/contexts/language-context"
 
 const galleryImages = [
-  {
-    src: "/images/fronte.png",
-    alt: "Hotel Paradiso delle Madonie - Vista frontale",
-    category: "Esterno",
-  },
-  {
-    src: "/images/reception.png",
-    alt: "Reception Hotel Paradiso delle Madonie",
-    category: "Interni",
-  },
-  {
-    src: "/images/reception2.png",
-    alt: "Area reception e accoglienza",
-    category: "Interni",
-  },
-  {
-    src: "/images/ingresso-hotel.jpg",
-    alt: "Ingresso principale dell'hotel",
-    category: "Esterno",
-  },
-  {
-    src: "/images/camera1.jpg",
-    alt: "Camera doppia con arredi classici",
-    category: "Camere",
-  },
-  {
-    src: "/images/camera2.jpg",
-    alt: "Camera matrimoniale confortevole",
-    category: "Camere",
-  },
-  {
-    src: "/images/camera3.jpg",
-    alt: "Camera con vista panoramica",
-    category: "Camere",
-  },
-  {
-    src: "/images/bagno.png",
-    alt: "Bagno privato con doccia",
-    category: "Camere",
-  },
+  { src: "/images/fronte.png", alt: "Hotel a Castelbuono - facciata Hotel Paradiso delle Madonie", category: "exterior" },
+  { src: "/images/reception.png", alt: "Reception hotel nel centro storico di Castelbuono", category: "interior" },
+  { src: "/images/ingresso-hotel.jpg", alt: "Ingresso principale hotel a Castelbuono", category: "exterior" },
+  { src: "/images/camera1.jpg", alt: "Camera singola a Castelbuono", category: "rooms" },
+  { src: "/images/camera2.jpg", alt: "Camera doppia a Castelbuono", category: "rooms" },
+  { src: "/images/camera3.jpg", alt: "Camera tripla a Castelbuono", category: "rooms" },
+  { src: "/images/bagno.png", alt: "Bagno privato in camera", category: "rooms" },
+  { src: "/images/castello.png", alt: "Castello dei Ventimiglia", category: "exterior" },
+  { src: "/images/parcomadonie.png", alt: "Parco delle Madonie", category: "exterior" },
+  { src: "/images/manna.png", alt: "Raccolta della Manna", category: "exterior" },
+  { src: "/images/fiasconaro.png", alt: "Pasticceria Fiasconaro", category: "interior" },
+  { src: "/images/reception2.png", alt: "Dettagli Reception", category: "interior" },
 ]
 
+const categories = ["all", "exterior", "interior", "rooms"] as const
+
 export default function GallerySection() {
-  const [selectedCategory, setSelectedCategory] = useState("Tutti")
-  const [lightboxImage, setLightboxImage] = useState<number | null>(null)
   const { t } = useLanguage()
+  const [activeCategory, setActiveCategory] = useState<string>("all")
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
 
-  const categories = [t("gallery.all"), t("gallery.exterior"), t("gallery.interior"), t("gallery.rooms")]
-  const categoryMap: { [key: string]: string } = {
-    [t("gallery.all")]: "Tutti",
-    [t("gallery.exterior")]: "Esterno",
-    [t("gallery.interior")]: "Interni",
-    [t("gallery.rooms")]: "Camere",
-  }
-
-  const filteredImages =
-    selectedCategory === "Tutti" || selectedCategory === t("gallery.all")
+  const filtered =
+    activeCategory === "all"
       ? galleryImages
-      : galleryImages.filter((img) => {
-          const mappedCategory = categoryMap[selectedCategory] || selectedCategory
-          return img.category === mappedCategory
-        })
+      : galleryImages.filter((img) => img.category === activeCategory)
 
-  const nextImage = () => {
-    if (lightboxImage !== null) {
-      setLightboxImage((lightboxImage + 1) % filteredImages.length)
-    }
+  const categoryLabels: Record<string, string> = {
+    all: t("gallery.all"),
+    exterior: t("gallery.exterior"),
+    interior: t("gallery.interior"),
+    rooms: t("gallery.rooms"),
   }
 
-  const prevImage = () => {
-    if (lightboxImage !== null) {
-      setLightboxImage(lightboxImage === 0 ? filteredImages.length - 1 : lightboxImage - 1)
-    }
-  }
+  const openLightbox = (index: number) => setLightboxIndex(index)
+  const closeLightbox = () => setLightboxIndex(null)
+
+  const goPrev = () =>
+    setLightboxIndex((prev) =>
+      prev !== null ? (prev - 1 + filtered.length) % filtered.length : null,
+    )
+  const goNext = () =>
+    setLightboxIndex((prev) =>
+      prev !== null ? (prev + 1) % filtered.length : null,
+    )
 
   return (
-    <section className="py-20 bg-slate-50">
-      <div className="container mx-auto px-6">
+    <section id="galleria" className="section-shell bg-section-warm">
+      <div className="container-shell">
+        {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true, amount: 0.2 }}
+          className="mx-auto max-w-3xl text-center"
         >
-          <h2 className="text-4xl md:text-6xl font-serif mb-6">
-            <span className="text-slate-900">Galleria</span>
-            <span className="block text-amber-500">Fotografica</span>
-          </h2>
-          <div className="title-divider mb-8" />
-          <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed font-sans">
-            {t("gallery.description")}
-          </p>
+          <span className="eyebrow">
+            <Camera className="h-3.5 w-3.5" />
+            {t("gallery.title")}
+          </span>
+          <h2 className="section-title">{t("gallery.title")}</h2>
+          <p className="section-subtitle mx-auto">{t("gallery.description")}</p>
         </motion.div>
 
-        {/* Category Filter */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="flex flex-wrap justify-center gap-4 mb-16"
-        >
-          {categories.map((category) => (
-            <Button
-              key={category}
-              variant={selectedCategory === category ? "default" : "outline"}
-              onClick={() => setSelectedCategory(category)}
-              className={`font-sans transition-all duration-300 ${
-                selectedCategory === category
-                  ? "bg-slate-900 hover:bg-black text-white"
-                  : "border-slate-300 text-slate-700 hover:border-slate-900 hover:text-slate-900"
-              }`}
+        {/* Filter tabs */}
+        <div className="mx-auto mt-10 flex max-w-sm justify-center gap-1.5">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className="rounded-full px-4 py-2 text-sm font-medium transition-all"
+              style={{
+                backgroundColor:
+                  activeCategory === cat ? "var(--primary-900)" : "var(--neutral-100)",
+                color: activeCategory === cat ? "#fff" : "var(--neutral-600)",
+                transitionDuration: "var(--duration-fast)",
+              }}
             >
-              {category}
-            </Button>
+              {categoryLabels[cat]}
+            </button>
           ))}
-        </motion.div>
+        </div>
 
-        {/* Gallery Grid */}
-        <motion.div layout className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          <AnimatePresence>
-            {filteredImages.map((image, index) => (
-              <motion.div
-                key={`${selectedCategory}-${index}`}
+        {/* Gallery Grid — masonry-like */}
+        <motion.div
+          layout
+          className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3"
+        >
+          <AnimatePresence mode="popLayout">
+            {filtered.map((img, index) => (
+              <motion.button
+                key={img.src}
                 layout
-                initial={{ opacity: 0, scale: 0.8 }}
+                initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                transition={{ duration: 0.5 }}
-                className="relative group cursor-pointer overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition-all duration-500"
-                onClick={() => setLightboxImage(index)}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.3 }}
+                onClick={() => openLightbox(index)}
+                className={`group relative overflow-hidden rounded-2xl ${index === 0 ? "sm:row-span-2 sm:h-full min-h-[280px]" : "h-56"
+                  }`}
+                style={{ border: "1px solid var(--neutral-150)" }}
               >
-                <div className="relative h-64">
-                  <Image
-                    src={image.src || "/placeholder.svg"}
-                    alt={image.alt}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300" />
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="bg-white/20 backdrop-blur-sm rounded-full p-3">
-                      <svg className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
+                <Image
+                  src={img.src}
+                  alt={img.alt}
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div
+                  className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100"
+                  style={{ transitionDuration: "var(--duration-normal)" }}
+                />
+              </motion.button>
             ))}
           </AnimatePresence>
         </motion.div>
-
-        {/* Lightbox */}
-        <AnimatePresence>
-          {lightboxImage !== null && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4"
-              onClick={() => setLightboxImage(null)}
-            >
-              <motion.div
-                initial={{ scale: 0.8 }}
-                animate={{ scale: 1 }}
-                exit={{ scale: 0.8 }}
-                className="relative max-w-6xl max-h-full"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <div className="relative h-[80vh] w-full">
-                  <Image
-                    src={filteredImages[lightboxImage].src || "/placeholder.svg"}
-                    alt={filteredImages[lightboxImage].alt}
-                    fill
-                    className="object-contain"
-                  />
-                </div>
-
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="absolute -top-12 right-0 text-white hover:bg-white/10"
-                  onClick={() => setLightboxImage(null)}
-                >
-                  <X className="h-6 w-6" />
-                </Button>
-
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white hover:bg-white/10"
-                  onClick={prevImage}
-                >
-                  <ChevronLeft className="h-8 w-8" />
-                </Button>
-
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white hover:bg-white/10"
-                  onClick={nextImage}
-                >
-                  <ChevronRight className="h-8 w-8" />
-                </Button>
-
-                <div className="absolute -bottom-16 left-0 right-0 text-center text-white">
-                  <p className="text-lg font-serif">{filteredImages[lightboxImage].alt}</p>
-                  <p className="text-sm text-gray-300 mt-2 font-sans">
-                    {lightboxImage + 1} {t("gallery.of")} {filteredImages.length}
-                  </p>
-                </div>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
+
+      {/* Lightbox */}
+      <AnimatePresence>
+        {lightboxIndex !== null && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 flex items-center justify-center p-4"
+            style={{
+              zIndex: "var(--z-modal)",
+              backgroundColor: "rgba(0,0,0,0.92)",
+            }}
+            onClick={closeLightbox}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Image lightbox"
+            onKeyDown={(e) => {
+              if (e.key === "Escape") closeLightbox()
+              if (e.key === "ArrowLeft") goPrev()
+              if (e.key === "ArrowRight") goNext()
+            }}
+            tabIndex={0}
+          >
+            <button
+              onClick={(e) => {
+                e.stopPropagation()
+                closeLightbox()
+              }}
+              className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-sm hover:bg-white/20"
+              aria-label="Close lightbox"
+            >
+              <X className="h-5 w-5" />
+            </button>
+
+            <button
+              onClick={(e) => {
+                e.stopPropagation()
+                goPrev()
+              }}
+              className="absolute left-4 flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-sm hover:bg-white/20"
+              aria-label="Previous image"
+            >
+              <ChevronLeft className="h-6 w-6" />
+            </button>
+
+            <motion.div
+              key={lightboxIndex}
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.96 }}
+              transition={{ duration: 0.2 }}
+              className="relative h-[80vh] w-full max-w-4xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <Image
+                src={filtered[lightboxIndex].src}
+                alt={filtered[lightboxIndex].alt}
+                fill
+                className="rounded-2xl object-contain"
+                sizes="90vw"
+              />
+            </motion.div>
+
+            <button
+              onClick={(e) => {
+                e.stopPropagation()
+                goNext()
+              }}
+              className="absolute right-4 flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-sm hover:bg-white/20"
+              aria-label="Next image"
+            >
+              <ChevronRight className="h-6 w-6" />
+            </button>
+
+            <div className="absolute bottom-6 text-sm text-white/70">
+              {lightboxIndex + 1} / {filtered.length}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   )
 }

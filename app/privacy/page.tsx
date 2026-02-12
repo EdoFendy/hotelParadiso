@@ -2,12 +2,18 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { generatePageMetadata } from '@/lib/seo-utils'
 
-export const metadata: Metadata = generatePageMetadata({
-  title: 'Privacy Policy | Hotel Paradiso delle Madonie',
-  description: 'Informativa sulla privacy e trattamento dei dati personali - Hotel Paradiso delle Madonie, Castelbuono. GDPR compliant.',
-  path: '/privacy',
-  type: 'website',
-})
+export const metadata: Metadata = {
+  ...generatePageMetadata({
+    title: 'Privacy Policy | Hotel Paradiso delle Madonie',
+    description: 'Informativa sulla privacy e trattamento dei dati personali - Hotel Paradiso delle Madonie, Castelbuono. GDPR compliant.',
+    path: '/privacy',
+    type: 'website',
+  }),
+  robots: {
+    index: false,
+    follow: true,
+  },
+}
 
 export default function PrivacyPage() {
   return (

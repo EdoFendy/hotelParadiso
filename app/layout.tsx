@@ -1,36 +1,37 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
+import { Lexend_Deca, Montserrat } from "next/font/google"
 import "./globals.css"
 import { LanguageProvider } from "@/contexts/language-context"
 import CookieBanner from "@/components/cookie-banner"
 
-const inter = Inter({
+const lexend = Lexend_Deca({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-lexend",
   display: "swap",
 })
 
-// Using a serif font that's more widely available
-const serifFont = {
-  variable: "--font-playfair",
-}
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  variable: "--font-montserrat",
+  display: "swap",
+  weight: ["300", "400", "500", "600", "700", "800"],
+})
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://paradisodellemadonie.it"),
   title: {
-    default: "Hotel Castelbuono - Hotel Paradiso delle Madonie | Centro Storico Castelbuono Sicilia",
-    template: "%s | Hotel Paradiso Madonie Castelbuono",
+    default: "Hotel a Castelbuono Centro Storico | Vicino Cefalu | Hotel Paradiso delle Madonie",
+    template: "%s | Hotel Paradiso delle Madonie",
   },
   description:
-    "Hotel Castelbuono centro storico. Hotel Paradiso delle Madonie, 3 stelle nel cuore di Castelbuono. A 23km da Cefalù, vicino Castello Ventimiglia. Camere confortevoli, WiFi gratis, colazione inclusa. Miglior hotel Castelbuono per Ypsigrock.",
+    "Hotel a Castelbuono nel centro storico, a 23 km da Cefalu. Camere confortevoli con colazione inclusa, WiFi gratuito e contatto diretto.",
   keywords:
-    "hotel castelbuono, hotel castelbuono centro, hotel castelbuono sicilia, albergo castelbuono, hotel paradiso madonie, dove dormire castelbuono, hotel castello ventimiglia castelbuono, hotel ypsigrock castelbuono, hotel 3 stelle castelbuono, pensione castelbuono, bed and breakfast castelbuono, hotel economico castelbuono, hotel centro storico castelbuono, alloggio castelbuono, pernottamento castelbuono, hotel madonie, hotel parco madonie, hotel vicino cefalù, hotel tra mare e montagna, castelbuono dove dormire, castelbuono alloggio, castelbuono hotel centro, migliore hotel castelbuono, hotel consigliato castelbuono",
+    "hotel castelbuono, alloggio castelbuono, camere castelbuono, hotel vicino cefalu, hotel cefalu e dintorni, alloggio vicino cefalu, dove dormire tra cefalu e madonie, hotel paradiso delle madonie",
   authors: [{ name: "Hotel Paradiso delle Madonie", url: "https://paradisodellemadonie.it" }],
   creator: "Hotel Paradiso delle Madonie",
   publisher: "Hotel Paradiso delle Madonie",
   category: "Hotel & Accommodation",
-  classification: "Hotel 3 Stelle",
   robots: {
     index: true,
     follow: true,
@@ -46,11 +47,12 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "it_IT",
-    alternateLocale: ["en_US", "de_DE", "fr_FR"],
+    alternateLocale: ["en_US"],
     url: "https://paradisodellemadonie.it",
     siteName: "Hotel Paradiso delle Madonie Castelbuono",
-    title: "Hotel Castelbuono - Hotel Paradiso delle Madonie | Centro Storico",
-    description: "Hotel Castelbuono centro storico. Hotel Paradiso delle Madonie, albergo 3 stelle nel cuore di Castelbuono Sicilia. Camere confortevoli, WiFi, colazione. Miglior hotel per Ypsigrock e Castello Ventimiglia.",
+    title: "Hotel a Castelbuono Centro Storico | Hotel Paradiso delle Madonie",
+    description:
+      "Hotel a Castelbuono, a 23 km da Cefalu: camere e alloggio tra Madonie e costa con contatto diretto.",
     images: [
       {
         url: "/images/fronte.png",
@@ -72,24 +74,14 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     site: "@hotelparadisomadonie",
     creator: "@hotelparadisomadonie",
-    title: "Hotel Castelbuono - Hotel Paradiso delle Madonie | Centro Storico Sicilia",
-    description: "Hotel Castelbuono centro storico. Hotel 3 stelle nel Parco Madonie, 23km da Cefalù. Tra mare e montagna, vicino Castello Ventimiglia.",
+    title: "Hotel a Castelbuono | Hotel Paradiso delle Madonie",
+    description:
+      "Hotel a Castelbuono vicino Cefalu: camere e alloggio con prenotazione diretta via telefono o WhatsApp.",
     images: ["/images/fronte.png"],
   },
-  verification: {
-    google: "0a3e4f5b6c7d8e9a",
-    other: {
-      "google-site-verification": "0a3e4f5b6c7d8e9a",
-    },
-  },
+  // verification: { google: "INSERT_REAL_CODE_FROM_SEARCH_CONSOLE" },
   alternates: {
     canonical: "https://paradisodellemadonie.it",
-    languages: {
-      "it-IT": "https://paradisodellemadonie.it",
-      "en-US": "https://paradisodellemadonie.it/en",
-      "de-DE": "https://paradisodellemadonie.it/de",
-      "fr-FR": "https://paradisodellemadonie.it/fr",
-    },
   },
   icons: {
     icon: [
@@ -103,11 +95,15 @@ export const metadata: Metadata = {
       { url: "/icon/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
     ],
   },
-  manifest: "/manifest.json",
+  manifest: "/manifest.webmanifest",
   other: {
     "apple-mobile-web-app-capable": "yes",
     "apple-mobile-web-app-status-bar-style": "black-translucent",
     "format-detection": "telephone=no",
+    "geo.region": "IT-PA",
+    "geo.placename": "Castelbuono, Sicilia",
+    "geo.position": "37.9341;14.0436",
+    ICBM: "37.9341, 14.0436",
   },
 }
 
@@ -117,58 +113,19 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="it" className={`${inter.variable} ${serifFont.variable}`}>
+    <html lang="it" className={`${lexend.variable} ${montserrat.variable}`}>
       <head>
         {/* Theme & Mobile Optimization */}
-        <meta name="theme-color" content="#1e1b4b" />
+        <meta name="theme-color" content="#1c1c1e" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="Paradiso Madonie" />
 
-        {/* Geo Location Tags */}
-        <meta name="geo.region" content="IT-PA" />
-        <meta name="geo.placename" content="Castelbuono, Sicilia" />
-        <meta name="geo.position" content="37.9341;14.0436" />
-        <meta name="ICBM" content="37.9341, 14.0436" />
-
-        {/* Additional SEO Tags */}
-        <meta name="rating" content="general" />
-        <meta name="revisit-after" content="7 days" />
-        <meta name="distribution" content="global" />
-        <meta name="coverage" content="Worldwide" />
-        <meta name="target" content="all" />
-        <meta name="audience" content="all" />
-        <meta name="HandheldFriendly" content="True" />
-        <meta name="MobileOptimized" content="320" />
-
         {/* Business Contact */}
         <meta name="contact" content="info@paradisodellemadonie.it" />
         <meta name="phone" content="+39 0921 820683" />
         <meta name="address" content="Via Dante Alighieri, 82, 90013 Castelbuono PA, Italia" />
-
-        {/* Location Specific */}
-        <meta name="locality" content="Castelbuono" />
-        <meta name="region" content="Sicilia" />
-        <meta name="country" content="Italia" />
-        <meta name="postal-code" content="90013" />
-
-        {/* Castelbuono Local SEO */}
-        <meta name="city" content="Castelbuono" />
-        <meta name="state" content="Palermo" />
-        <meta property="business:contact_data:locality" content="Castelbuono" />
-        <meta property="business:contact_data:region" content="Sicilia" />
-        <meta property="business:contact_data:country_name" content="Italia" />
-
-        {/* Hotel Specific */}
-        <meta property="hotel:latitude" content="37.9341" />
-        <meta property="hotel:longitude" content="14.0436" />
-        <meta property="hotel:locality" content="Castelbuono" />
-        <meta property="hotel:region" content="PA" />
-        <meta property="hotel:country-name" content="IT" />
-        <meta property="hotel:price_range" content="€€-€€€" />
-        <meta property="hotel:rating" content="4.6" />
-        <meta property="hotel:rating:scale" content="5" />
 
         {/* DNS Prefetch for Performance */}
         <link rel="dns-prefetch" href="//www.google-analytics.com" />
@@ -176,19 +133,8 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://www.google-analytics.com" />
-
-        <style
-          dangerouslySetInnerHTML={{
-            __html: `
-            :root {
-              --font-playfair: "Times New Roman", "Georgia", "Playfair Display", serif;
-              --font-inter: "Helvetica Neue", "Arial", "Inter", sans-serif;
-            }
-          `,
-          }}
-        />
       </head>
-      <body className={`${inter.className} antialiased`}>
+      <body className={`${lexend.className} antialiased`}>
         <LanguageProvider>
           {children}
           <CookieBanner />

@@ -1,5 +1,12 @@
+import path from "path"
+import { fileURLToPath } from "url"
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  outputFileTracingRoot: __dirname,
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -9,7 +16,7 @@ const nextConfig = {
 
   // Image Optimization per SEO e Performance
   images: {
-    unoptimized: true, // Disabilita ottimizzazione per evitare problemi in produzione
+    unoptimized: false,
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
@@ -132,6 +139,51 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: '/camere',
+        destination: '/camere-castelbuono',
+        permanent: true,
+      },
+      {
+        source: '/alloggio',
+        destination: '/alloggio-castelbuono',
+        permanent: true,
+      },
+      {
+        source: '/castelbuono',
+        destination: '/hotel-castelbuono',
+        permanent: true,
+      },
+      {
+        source: '/servizi',
+        destination: '/hotel-castelbuono',
+        permanent: true,
+      },
+      {
+        source: '/territorio',
+        destination: '/alloggio-castelbuono',
+        permanent: true,
+      },
+      {
+        source: '/castello-ventimiglia',
+        destination: '/hotel-castelbuono',
+        permanent: true,
+      },
+      {
+        source: '/parco-madonie',
+        destination: '/alloggio-castelbuono',
+        permanent: true,
+      },
+      {
+        source: '/cefalu',
+        destination: '/hotel-cefalu',
+        permanent: true,
+      },
+      {
+        source: '/ypsigrock',
+        destination: '/alloggio-castelbuono',
+        permanent: true,
+      },
+      {
         source: '/home',
         destination: '/',
         permanent: true,
@@ -171,11 +223,8 @@ const nextConfig = {
     return config
   },
 
-  // Experimental features per performance
-  experimental: {
-    optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
-
-  },
+  // Keep experimental options disabled in production/dev stability path.
+  // optimizePackageImports caused unstable client runtime chunk resolution.
 
   // Output mode (se necessiti di static export)
   // output: 'export', // Decommenta per static export

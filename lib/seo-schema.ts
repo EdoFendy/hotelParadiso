@@ -1,186 +1,175 @@
 /**
- * ENTERPRISE-LEVEL SEO SCHEMA.ORG IMPLEMENTATION
- * Complete structured data for Hotel Paradiso delle Madonie
- * Optimized for Google Rich Snippets, Knowledge Graph, and local search dominance
+ * SEO schema focused on verifiable data only.
+ * Avoids speculative claims (prices, ratings, event dates, room counts).
  */
+
+const BASE_URL = "https://paradisodellemadonie.it"
+const CONTACT_EMAIL = "info@paradisodellemadonie.it"
+const CONTACT_PHONE = "+39 0921 820683"
+const PHONE_E164 = "+390921820683"
+const WHATSAPP_URL = "https://wa.me/393929309201"
+
+const HOTEL_ADDRESS = {
+  "@type": "PostalAddress",
+  streetAddress: "Via Dante Alighieri, 82",
+  addressLocality: "Castelbuono",
+  addressRegion: "PA",
+  postalCode: "90013",
+  addressCountry: "IT",
+}
+
+const GEO = {
+  "@type": "GeoCoordinates",
+  latitude: 37.9341,
+  longitude: 14.0436,
+}
+
+const SAME_AS = [
+  "https://www.facebook.com/hotelparadisomadonie",
+  "https://www.instagram.com/hotelparadisomadonie",
+  "https://www.tripadvisor.it/hotel-paradiso-madonie",
+]
+
+const AREA_SERVED = [
+  {
+    "@type": "Place",
+    name: "Castelbuono",
+  },
+  {
+    "@type": "Place",
+    name: "Cefalu",
+  },
+  {
+    "@type": "Place",
+    name: "Parco delle Madonie",
+  },
+]
+
+const ROOM_TYPES = [
+  {
+    id: "single",
+    name: "Camera Singola",
+    maxOccupancy: 1,
+  },
+  {
+    id: "double",
+    name: "Camera Doppia",
+    maxOccupancy: 2,
+  },
+  {
+    id: "triple",
+    name: "Camera Tripla",
+    maxOccupancy: 3,
+  },
+  {
+    id: "quad",
+    name: "Camera Quadrupla",
+    maxOccupancy: 4,
+  },
+]
+
+export const generateWebSiteSchema = () => ({
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${BASE_URL}/#website`,
+  url: BASE_URL,
+  name: "Hotel Paradiso delle Madonie",
+  inLanguage: "it-IT",
+  publisher: {
+    "@id": `${BASE_URL}/#organization`,
+  },
+})
 
 export const generateHotelSchema = () => ({
   "@context": "https://schema.org",
   "@type": "Hotel",
-  "@id": "https://paradisodellemadonie.it/#hotel",
-  name: "Hotel Paradiso delle Madonie Castelbuono",
-  alternateName: ["Hotel Castelbuono", "Paradiso Madonie Hotel", "Albergo Castelbuono", "Hotel Paradiso Castelbuono"],
-  description: "Hotel Castelbuono centro storico. Hotel 3 stelle nel cuore di Castelbuono, Parco Madonie. Miglior hotel Castelbuono vicino Castello Ventimiglia. Ideale per Ypsigrock Festival. WiFi, colazione, parcheggio.",
-  url: "https://paradisodellemadonie.it",
-  telephone: "+39 0921 820683",
-  email: "info@paradisodellemadonie.it",
-  image: [
-    "https://paradisodellemadonie.it/images/fronte.png",
-    "https://paradisodellemadonie.it/images/reception.png",
-    "https://paradisodellemadonie.it/images/camera1.jpg"
+  "@id": `${BASE_URL}/#hotel`,
+  name: "Hotel Paradiso delle Madonie",
+  alternateName: [
+    "Hotel Paradiso delle Madonie Castelbuono",
+    "Hotel Castelbuono",
+    "Alloggio Castelbuono Centro Storico",
+    "Hotel vicino Cefalu",
   ],
-  logo: {
-    "@type": "ImageObject",
-    url: "https://paradisodellemadonie.it/images/logo.png",
-    width: 400,
-    height: 200,
-    caption: "Hotel Paradiso delle Madonie Castelbuono Logo"
-  },
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: "Via Dante Alighieri, 82",
-    addressLocality: "Castelbuono",
-    addressRegion: "PA",
-    postalCode: "90013",
-    addressCountry: "IT"
-  },
-  geo: {
-    "@type": "GeoCoordinates",
-    latitude: 37.9341,
-    longitude: 14.0436
-  },
-  hasMap: "https://www.google.com/maps/place/Hotel+Paradiso+delle+Madonie/@37.9341,14.0436,17z",
+  description:
+    "Hotel a Castelbuono, nel Parco delle Madonie, a circa 23 km da Cefalu.",
+  url: BASE_URL,
+  telephone: CONTACT_PHONE,
+  email: CONTACT_EMAIL,
+  image: [
+    `${BASE_URL}/images/fronte.png`,
+    `${BASE_URL}/images/reception.png`,
+    `${BASE_URL}/images/camera1.jpg`,
+    `${BASE_URL}/images/camera2.jpg`,
+    `${BASE_URL}/images/camera3.jpg`,
+  ],
+  logo: `${BASE_URL}/images/logo.png`,
+  address: HOTEL_ADDRESS,
+  geo: GEO,
+  hasMap: "https://maps.google.com/?q=Hotel+Paradiso+delle+Madonie+Castelbuono",
+  checkinTime: "15:00:00",
+  checkoutTime: "10:00:00",
+  priceRange: "EUR 55-150",
+  petsAllowed: true,
   starRating: {
     "@type": "Rating",
     ratingValue: "3",
-    bestRating: "5"
   },
-  priceRange: "€€-€€€",
-  currenciesAccepted: "EUR",
-  paymentAccepted: "Cash, Credit Card, Debit Card",
-  openingHours: "Mo-Su 00:00-24:00",
-  checkinTime: "15:00:00",
-  checkoutTime: "10:00:00",
-  petsAllowed: true,
-  numberOfRooms: 18,
   amenityFeature: [
     { "@type": "LocationFeatureSpecification", name: "WiFi gratuito", value: true },
     { "@type": "LocationFeatureSpecification", name: "Aria condizionata", value: true },
-    { "@type": "LocationFeatureSpecification", name: "TV satellitare", value: true },
-    { "@type": "LocationFeatureSpecification", name: "Parcheggio privato gratuito", value: true },
-    { "@type": "LocationFeatureSpecification", name: "Colazione continentale inclusa", value: true },
-    { "@type": "LocationFeatureSpecification", name: "Bar & Lounge", value: true },
-    { "@type": "LocationFeatureSpecification", name: "Ristorante cucina siciliana", value: true },
-    { "@type": "LocationFeatureSpecification", name: "Reception 24h", value: true },
-    { "@type": "LocationFeatureSpecification", name: "Transfer aeroporto", value: true },
-    { "@type": "LocationFeatureSpecification", name: "Escursioni guidate Madonie", value: true },
-    { "@type": "LocationFeatureSpecification", name: "Terrazza panoramica", value: true },
-    { "@type": "LocationFeatureSpecification", name: "Vista Castello Ventimiglia", value: true }
+    { "@type": "LocationFeatureSpecification", name: "TV", value: true },
+    { "@type": "LocationFeatureSpecification", name: "Colazione inclusa", value: true },
   ],
-  makesOffer: [
-    {
-      "@type": "Offer",
-      name: "Camera Doppia Standard",
-      description: "Camera confortevole con vista panoramica sulle Madonie",
-      priceSpecification: {
-        "@type": "PriceSpecification",
-        price: "70",
-        priceCurrency: "EUR",
-        unitText: "per notte"
-      }
+  containsPlace: ROOM_TYPES.map((room) => ({
+    "@type": "HotelRoom",
+    "@id": `${BASE_URL}/#room-${room.id}`,
+    name: room.name,
+    occupancy: {
+      "@type": "QuantitativeValue",
+      maxValue: room.maxOccupancy,
     },
-    {
-      "@type": "Offer",
-      name: "Weekend Romantico alle Madonie",
-      description: "2 notti + colazione + cena tipica + bottiglia di vino Siciliano",
-      priceSpecification: {
-        "@type": "PriceSpecification",
-        price: "280",
-        priceCurrency: "EUR",
-        unitText: "per coppia"
-      }
-    },
-    {
-      "@type": "Offer",
-      name: "Pacchetto Ypsigrock Festival 2025",
-      description: "Soggiorno durante il festival internazionale indie-rock",
-      priceSpecification: {
-        "@type": "PriceSpecification",
-        price: "150",
-        priceCurrency: "EUR",
-        unitText: "per notte"
-      },
-      validFrom: "2025-08-07",
-      validThrough: "2025-08-10"
-    }
-  ],
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: "4.6",
-    reviewCount: "89",
-    bestRating: "5",
-    worstRating: "1"
-  },
-  sameAs: [
-    "https://www.facebook.com/hotelparadisomadonie",
-    "https://www.instagram.com/hotelparadisomadonie",
-    "https://www.tripadvisor.it/hotel-paradiso-madonie"
-  ],
-  knowsAbout: [
-    "Castelbuono",
-    "Parco delle Madonie",
-    "Castello Ventimiglia",
-    "Ypsigrock Festival",
-    "Manna di Castelbuono",
-    "Pasticceria Fiasconaro",
-    "Cefalù",
-    "Borghi Siciliani",
-    "Trekking Madonie",
-    "Piano Battaglia"
-  ],
-  touristType: [
-    "Coppie romantiche",
-    "Famiglie con bambini",
-    "Appassionati di natura",
-    "Food lovers",
-    "Sportivi e escursionisti",
-    "Amanti della cultura"
-  ]
-});
+  })),
+  sameAs: SAME_AS,
+})
 
 export const generateLocalBusinessSchema = () => ({
   "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  "@id": "https://paradisodellemadonie.it/#localbusiness",
-  name: "Hotel Castelbuono - Hotel Paradiso delle Madonie",
-  alternateName: ["Hotel Castelbuono Centro", "Albergo Castelbuono", "Hotel Paradiso Castelbuono"],
-  description: "Hotel Castelbuono centro storico. Miglior hotel a Castelbuono per posizione centrale. Vicino Castello Ventimiglia, ideale per Ypsigrock Festival.",
-  image: "https://paradisodellemadonie.it/images/fronte.png",
-  url: "https://paradisodellemadonie.it",
-  telephone: "+39 0921 820683",
-  priceRange: "€€-€€€",
-  keywords: "hotel castelbuono, albergo castelbuono, dove dormire castelbuono, hotel centro castelbuono",
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: "Via Dante Alighieri, 82",
-    addressLocality: "Castelbuono",
-    addressRegion: "Sicilia",
-    postalCode: "90013",
-    addressCountry: "IT"
-  },
-  geo: {
-    "@type": "GeoCoordinates",
-    latitude: 37.9341,
-    longitude: 14.0436
+  "@type": "LodgingBusiness",
+  "@id": `${BASE_URL}/#localbusiness`,
+  name: "Hotel Paradiso delle Madonie",
+  url: BASE_URL,
+  telephone: CONTACT_PHONE,
+  email: CONTACT_EMAIL,
+  image: `${BASE_URL}/images/fronte.png`,
+  address: HOTEL_ADDRESS,
+  geo: GEO,
+  areaServed: AREA_SERVED,
+  contactPoint: {
+    "@type": "ContactPoint",
+    contactType: "customer support",
+    email: CONTACT_EMAIL,
+    telephone: CONTACT_PHONE,
+    availableLanguage: ["Italian", "English"],
   },
   openingHoursSpecification: [
     {
       "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-      opens: "00:00",
-      closes: "23:59"
-    }
-  ],
-  areaServed: {
-    "@type": "GeoCircle",
-    geoMidpoint: {
-      "@type": "GeoCoordinates",
-      latitude: 37.9341,
-      longitude: 14.0436
+      dayOfWeek: [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday",
+      ],
+      opens: "08:00",
+      closes: "22:00",
     },
-    geoRadius: "50000"
-  }
-});
+  ],
+  sameAs: SAME_AS,
+})
 
 export const generateBreadcrumbSchema = (items: Array<{ name: string; url: string }>) => ({
   "@context": "https://schema.org",
@@ -189,424 +178,287 @@ export const generateBreadcrumbSchema = (items: Array<{ name: string; url: strin
     "@type": "ListItem",
     position: index + 1,
     name: item.name,
-    item: item.url
-  }))
-});
+    item: item.url,
+  })),
+})
+
+export const generateRoomListSchema = () => ({
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "@id": `${BASE_URL}/#room-list`,
+  name: "Camere Hotel Paradiso delle Madonie",
+  itemListElement: ROOM_TYPES.map((room, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    item: {
+      "@type": "HotelRoom",
+      "@id": `${BASE_URL}/#room-${room.id}`,
+      name: room.name,
+      url: `${BASE_URL}/camere-castelbuono`,
+      occupancy: {
+        "@type": "QuantitativeValue",
+        maxValue: room.maxOccupancy,
+      },
+    },
+  })),
+})
 
 export const generateFAQSchema = () => ({
   "@context": "https://schema.org",
   "@type": "FAQPage",
+  "@id": `${BASE_URL}/#faq`,
   mainEntity: [
     {
       "@type": "Question",
-      name: "Quanto dista l'Hotel Paradiso delle Madonie da Cefalù?",
+      name: "Quali sono gli orari di check-in e check-out?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "L'Hotel Paradiso delle Madonie dista 23 km da Cefalù, raggiungibile in 20-25 minuti in auto. La posizione strategica permette di combinare mare e montagna nella stessa giornata."
-      }
+        text: "Il check-in e dalle 15:00 alle 22:00. Il check-out e entro le 10:00.",
+      },
     },
     {
       "@type": "Question",
-      name: "Come arrivare da Palermo all'Hotel?",
+      name: "La colazione e inclusa?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Da Palermo si percorrono 90 km in 1h 15min in auto tramite A20/E90. L'aeroporto di Palermo Falcone e Borsellino dista 90 km. Offriamo servizio transfer su richiesta."
-      }
+        text: "Si, la colazione continentale a buffet e inclusa nelle tariffe indicate sul sito.",
+      },
     },
     {
       "@type": "Question",
-      name: "Cosa vedere a Castelbuono?",
+      name: "Come posso contattare l'hotel?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "A Castelbuono potete visitare il Castello dei Ventimiglia (1316), la Cappella Serpotta, le chiese storiche (Matrice Vecchia e Nuova), il Museo Naturalistico Francesco Minà Palumbo, e degustare la famosa Manna e i panettoni Fiasconaro."
-      }
+        text: "Puoi contattare l'hotel via telefono, email o WhatsApp usando i contatti presenti nella pagina.",
+      },
     },
-    {
-      "@type": "Question",
-      name: "Quali escursioni fare nel Parco delle Madonie?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Le escursioni principali includono: Pizzo Carbonara (1.979m, tetto della Sicilia occidentale), Anello degli Agrifogli Giganti, Monte Mufara, Bosco di Pomieri, e le spettacolari Gole di Tiberio. Organizziamo escursioni guidate."
-      }
-    },
-    {
-      "@type": "Question",
-      name: "Quando si svolge Ypsigrock Festival?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Ypsigrock Festival si svolge dal 7 al 10 agosto 2025 in Piazza Castello a Castelbuono. È un festival internazionale di musica indie-rock giunto alla 28ª edizione. Prenota in anticipo, le camere si esauriscono rapidamente."
-      }
-    },
-    {
-      "@type": "Question",
-      name: "L'hotel offre parcheggio gratuito?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Sì, offriamo parcheggio privato gratuito per tutti gli ospiti dell'hotel."
-      }
-    },
-    {
-      "@type": "Question",
-      name: "Quali borghi visitare vicino a Castelbuono?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Nelle vicinanze potete visitare: Geraci Siculo (20 km, Borgo più Bello d'Italia), Gangi (25 km, Borgo dei Borghi 2014), Petralia Soprana (18 km, Borgo dei Borghi 2018), Petralia Sottana (15 km), Isnello con Parco Astronomico (12 km), Pollina (18 km) e Cefalù (23 km, patrimonio UNESCO)."
-      }
-    },
-    {
-      "@type": "Question",
-      name: "Si può sciare vicino a Castelbuono?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Sì, a Piano Battaglia (1.600 m s.l.m.) a circa 30 km dall'hotel, la seconda stazione sciistica della Sicilia con 3 impianti di risalita e 7 piste. Stagione 2025/2026 confermata."
-      }
-    },
-    {
-      "@type": "Question",
-      name: "Cos'è la Manna di Castelbuono?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "La Manna è la linfa del frassino che solidifica formando stalattiti, prodotta SOLO a Castelbuono e Pollina al mondo. È un Presidio Slow Food, utilizzata in pasticceria, cosmesi e farmaceutica. Costa circa 200€/kg per i cannoli."
-      }
-    },
-    {
-      "@type": "Question",
-      name: "L'hotel è adatto alle famiglie con bambini?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Assolutamente sì! Offriamo camere familiari, menu bambini, e organizziamo escursioni family-friendly come il Bosco di Pomieri e le Gole di Tiberio. Il territorio offre numerose attività didattiche nei musei e parchi avventura."
-      }
-    },
-    {
-      "@type": "Question",
-      name: "Qual è il miglior hotel a Castelbuono?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "L'Hotel Paradiso delle Madonie è considerato il miglior hotel a Castelbuono per posizione centrale (Via Dante Alighieri 82), vicinanza al Castello Ventimiglia (2 minuti a piedi), WiFi gratuito, colazione inclusa, e parcheggio privato. Rating 4.6/5 su 89 recensioni."
-      }
-    },
-    {
-      "@type": "Question",
-      name: "Dove dormire a Castelbuono centro?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Hotel Paradiso delle Madonie si trova nel cuore del centro storico di Castelbuono in Via Dante Alighieri 82. Posizione ideale a 2 minuti a piedi dal Castello Ventimiglia, 3 minuti dalla Pasticceria Fiasconaro e da tutti i servizi del centro."
-      }
-    },
-    {
-      "@type": "Question",
-      name: "Quanto costa un hotel a Castelbuono?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "All'Hotel Paradiso delle Madonie le camere partono da €70/notte con colazione inclusa, WiFi gratis e parcheggio. Offriamo pacchetti weekend da €280 per coppia (2 notti + cena tipica). Durante Ypsigrock Festival i prezzi sono €150/notte."
-      }
-    },
-    {
-      "@type": "Question",
-      name: "Hotel Castelbuono per Ypsigrock Festival?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "L'Hotel Paradiso delle Madonie è l'hotel ufficiale consigliato per Ypsigrock Festival (7-10 agosto 2025). Siamo a 300 metri da Piazza Castello dove si svolge il festival. Prenotazione anticipata obbligatoria, sold out frequente."
-      }
-    },
-    {
-      "@type": "Question",
-      name: "Hotel a Castelbuono vicino Castello Ventimiglia?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Hotel Paradiso delle Madonie è l'hotel più vicino al Castello Ventimiglia di Castelbuono: solo 2 minuti a piedi (150 metri). Posizione perfetta per visitare il castello normanno del 1316 e la Cappella Palatina con stucchi Serpotta."
-      }
-    },
-    {
-      "@type": "Question",
-      name: "Hotel 3 stelle a Castelbuono?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Hotel Paradiso delle Madonie è un hotel 3 stelle a Castelbuono con 18 camere dotate di aria condizionata, TV satellitare, WiFi gratis, bagno privato. Include colazione continentale, parcheggio gratuito, bar lounge e ristorante di cucina siciliana."
-      }
-    }
-  ]
-});
+  ],
+})
 
 export const generateYpsigrokEventSchema = () => ({
   "@context": "https://schema.org",
-  "@type": "MusicEvent",
-  name: "Ypsigrock Festival 2025",
-  description: "28ª edizione del festival internazionale di musica indie-rock a Castelbuono. Boutique festival con sold out frequente.",
-  image: "https://paradisodellemadonie.it/images/fronte.png",
-  startDate: "2025-08-07",
-  endDate: "2025-08-10",
-  eventStatus: "https://schema.org/EventScheduled",
-  eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+  "@type": "Event",
+  name: "Ypsigrock Festival",
   location: {
     "@type": "Place",
-    name: "Piazza Castello",
     address: {
       "@type": "PostalAddress",
-      streetAddress: "Piazza Castello",
       addressLocality: "Castelbuono",
       addressRegion: "PA",
-      postalCode: "90013",
-      addressCountry: "IT"
+      addressCountry: "IT",
     },
-    geo: {
-      "@type": "GeoCoordinates",
-      latitude: 37.9357,
-      longitude: 14.0427
-    }
   },
-  organizer: {
-    "@type": "Organization",
-    name: "Ypsigrock Festival",
-    url: "https://www.ypsigrock.com"
-  },
-  performer: {
-    "@type": "MusicGroup",
-    name: "Artisti Internazionali Indie Rock"
-  }
-});
+})
 
 export const generateDiVinoEventSchema = () => ({
   "@context": "https://schema.org",
-  "@type": "FoodEvent",
-  name: "DiVino Festival Castelbuono 2025",
-  description: "Festival enogastronomico dedicato all'eccellenza del vino e della cucina siciliana",
-  startDate: "2025-06-27",
-  endDate: "2025-06-30",
-  eventStatus: "https://schema.org/EventScheduled",
-  eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+  "@type": "Event",
+  name: "DiVino Festival Castelbuono",
   location: {
     "@type": "Place",
-    name: "Centro Storico Castelbuono",
     address: {
       "@type": "PostalAddress",
       addressLocality: "Castelbuono",
       addressRegion: "PA",
-      postalCode: "90013",
-      addressCountry: "IT"
-    }
-  }
-});
+      addressCountry: "IT",
+    },
+  },
+})
 
 export const generateFunghiFestEventSchema = () => ({
   "@context": "https://schema.org",
-  "@type": "FoodEvent",
-  name: "Funghi Fest Castelbuono 2025 - XIX Edizione",
-  description: "Sagra dei funghi delle Madonie con degustazioni, stand gastronomici, escursioni, concerti e mostre",
-  startDate: "2025-10-24",
-  endDate: "2025-10-26",
-  eventStatus: "https://schema.org/EventScheduled",
-  eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+  "@type": "Event",
+  name: "Funghi Fest Castelbuono",
   location: {
     "@type": "Place",
-    name: "Centro Storico Castelbuono",
     address: {
       "@type": "PostalAddress",
       addressLocality: "Castelbuono",
       addressRegion: "PA",
-      postalCode: "90013",
-      addressCountry: "IT"
-    }
-  }
-});
+      addressCountry: "IT",
+    },
+  },
+})
 
-// Schema per attrazioni locali
 export const generateCastelloVentimigliaSchema = () => ({
   "@context": "https://schema.org",
   "@type": "TouristAttraction",
+  "@id": `${BASE_URL}/#castello-ventimiglia`,
   name: "Castello dei Ventimiglia",
-  description: "Castello medievale del 1316, simbolo di Castelbuono. Ospita il Museo Civico e la famosa Cappella Palatina di Sant'Anna decorata dai fratelli Serpotta con stucchi barocchi.",
-  image: "https://paradisodellemadonie.it/images/fronte.png",
-  url: "https://paradisodellemadonie.it",
   address: {
     "@type": "PostalAddress",
-    streetAddress: "Piazza Castello",
     addressLocality: "Castelbuono",
     addressRegion: "PA",
-    postalCode: "90013",
-    addressCountry: "IT"
+    addressCountry: "IT",
   },
-  geo: {
-    "@type": "GeoCoordinates",
-    latitude: 37.9357,
-    longitude: 14.0427
-  },
-  isAccessibleForFree: false,
-  publicAccess: true,
-  touristType: ["Amanti dell'arte", "Famiglie", "Fotografi", "Appassionati di storia"]
-});
+})
 
 export const generateParcoMadonieSchema = () => ({
   "@context": "https://schema.org",
-  "@type": ["TouristAttraction", "Park"],
+  "@type": "TouristAttraction",
+  "@id": `${BASE_URL}/#parco-madonie`,
   name: "Parco delle Madonie",
-  description: "Parco Naturale Regionale delle Madonie, UNESCO Geopark. Offre trekking, mountain bike, sci a Piano Battaglia, flora e fauna uniche. Include Pizzo Carbonara (1.979m), Agrifogli Giganti secolari, Gole di Tiberio.",
-  image: "https://paradisodellemadonie.it/images/fronte.png",
-  url: "https://paradisodellemadonie.it",
   address: {
     "@type": "PostalAddress",
     addressLocality: "Castelbuono",
     addressRegion: "Sicilia",
-    addressCountry: "IT"
+    addressCountry: "IT",
   },
-  geo: {
-    "@type": "GeoCoordinates",
-    latitude: 37.9341,
-    longitude: 14.0436
-  },
-  isAccessibleForFree: true,
-  publicAccess: true,
-  touristType: ["Escursionisti", "Famiglie", "Sportivi", "Fotografi naturalisti", "Birdwatcher"]
-});
+})
 
 export const generateGoleTiberioSchema = () => ({
   "@context": "https://schema.org",
   "@type": "TouristAttraction",
+  "@id": `${BASE_URL}/#gole-tiberio`,
   name: "Gole di Tiberio",
-  description: "Canyon naturale lungo il fiume Pollina con pareti alte 400m. Escursione in gommone tra laghetti, flora e fauna. Durata 2h, costo €20 adulti €12 bambini.",
-  image: "https://paradisodellemadonie.it/images/fronte.png",
-  url: "https://paradisodellemadonie.it",
   address: {
     "@type": "PostalAddress",
     addressLocality: "Pollina",
     addressRegion: "PA",
-    addressCountry: "IT"
+    addressCountry: "IT",
   },
-  geo: {
-    "@type": "GeoCoordinates",
-    latitude: 37.9736,
-    longitude: 14.1519
-  },
-  isAccessibleForFree: false,
-  publicAccess: true
-});
+})
 
 export const generatePianoBattagliaSchema = () => ({
   "@context": "https://schema.org",
-  "@type": ["SkiResort", "TouristAttraction"],
+  "@type": "TouristAttraction",
+  "@id": `${BASE_URL}/#piano-battaglia`,
   name: "Piano Battaglia",
-  description: "Seconda stazione sciistica della Sicilia a 1.600m s.l.m. 3 impianti di risalita, 7 piste per tutti i livelli, 4 km area sciabile. Stagione 2025/2026 confermata.",
-  image: "https://paradisodellemadonie.it/images/fronte.png",
-  url: "https://paradisodellemadonie.it",
   address: {
     "@type": "PostalAddress",
     addressLocality: "Petralia Sottana",
     addressRegion: "PA",
-    addressCountry: "IT"
+    addressCountry: "IT",
   },
-  geo: {
-    "@type": "GeoCoordinates",
-    latitude: 37.8528,
-    longitude: 14.0244
-  },
-  publicAccess: true
-});
+})
 
-// Schema per prodotti locali
 export const generateMannaProductSchema = () => ({
   "@context": "https://schema.org",
   "@type": "Product",
   name: "Manna di Castelbuono",
-  description: "Linfa del frassino che solidifica formando stalattiti. Prodotto UNICO AL MONDO, solo a Castelbuono e Pollina. Presidio Slow Food. Utilizzata in pasticceria, cosmesi e farmaceutica.",
-  image: "https://paradisodellemadonie.it/images/fronte.png",
   brand: {
     "@type": "Brand",
-    name: "Manna Castelbuono DOP"
+    name: "Manna di Castelbuono",
   },
-  offers: {
-    "@type": "Offer",
-    price: "200",
-    priceCurrency: "EUR",
-    availability: "https://schema.org/InStock",
-    priceValidUntil: "2025-12-31"
-  }
-});
+})
 
 export const generateOrganizationSchema = () => ({
   "@context": "https://schema.org",
   "@type": "Organization",
-  "@id": "https://paradisodellemadonie.it/#organization",
+  "@id": `${BASE_URL}/#organization`,
   name: "Hotel Paradiso delle Madonie",
-  url: "https://paradisodellemadonie.it",
-  logo: "https://paradisodellemadonie.it/placeholder-logo.png",
-  image: "https://paradisodellemadonie.it/images/fronte.png",
-  description: "Hotel a Castelbuono nel Parco delle Madonie, Sicilia",
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: "Via Dante Alighieri, 82",
-    addressLocality: "Castelbuono",
-    addressRegion: "PA",
-    postalCode: "90013",
-    addressCountry: "IT"
-  },
+  url: BASE_URL,
+  logo: `${BASE_URL}/images/logo.png`,
+  image: `${BASE_URL}/images/fronte.png`,
+  description: "Hotel a Castelbuono nel Parco delle Madonie",
+  address: HOTEL_ADDRESS,
   contactPoint: {
     "@type": "ContactPoint",
-    telephone: "+39 0921 820683",
+    telephone: CONTACT_PHONE,
     contactType: "customer service",
-    email: "info@paradisodellemadonie.it",
-    availableLanguage: ["Italian", "English"]
+    email: CONTACT_EMAIL,
+    availableLanguage: ["Italian", "English"],
   },
-  sameAs: [
-    "https://www.facebook.com/hotelparadisomadonie",
-    "https://www.instagram.com/hotelparadisomadonie",
-    "https://www.tripadvisor.it/hotel-paradiso-madonie"
-  ]
-});
+  sameAs: SAME_AS,
+})
 
-// Schema per la WebPage principale
 export const generateWebPageSchema = () => ({
   "@context": "https://schema.org",
   "@type": "WebPage",
-  "@id": "https://paradisodellemadonie.it/#webpage",
-  url: "https://paradisodellemadonie.it",
-  name: "Hotel Paradiso delle Madonie | Castelbuono Sicilia",
-  description: "Hotel 3 stelle a Castelbuono nel Parco delle Madonie. A 23km da Cefalù, tra mare e montagna. Punto di partenza ideale per scoprire borghi, natura, eventi e gastronomia siciliana.",
+  "@id": `${BASE_URL}/#webpage`,
+  url: BASE_URL,
+  name: "Hotel Paradiso delle Madonie | Hotel a Castelbuono",
+  description:
+    "Hotel a Castelbuono nel cuore del Parco delle Madonie, a 23 km da Cefalu, con contatto diretto per richieste e prenotazioni.",
   inLanguage: "it-IT",
   isPartOf: {
-    "@type": "WebSite",
-    "@id": "https://paradisodellemadonie.it/#website",
-    url: "https://paradisodellemadonie.it",
-    name: "Hotel Paradiso delle Madonie",
-    publisher: {
-      "@id": "https://paradisodellemadonie.it/#organization"
-    }
+    "@id": `${BASE_URL}/#website`,
   },
   about: {
-    "@id": "https://paradisodellemadonie.it/#hotel"
+    "@id": `${BASE_URL}/#hotel`,
+  },
+  breadcrumb: {
+    "@id": `${BASE_URL}/#breadcrumb-home`,
+  },
+  potentialAction: [
+    {
+      "@type": "ReserveAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${BASE_URL}/#prenota`,
+      },
+    },
+    {
+      "@type": "CommunicateAction",
+      target: [
+        {
+          "@type": "EntryPoint",
+          urlTemplate: WHATSAPP_URL,
+          actionPlatform: [
+            "http://schema.org/DesktopWebPlatform",
+            "http://schema.org/MobileWebPlatform",
+          ],
+        },
+        {
+          "@type": "EntryPoint",
+          urlTemplate: `tel:${PHONE_E164}`,
+        },
+      ],
+    },
+  ],
+})
+
+export const generateHomeBreadcrumbSchema = () =>
+  generateBreadcrumbSchema([
+    {
+      name: "Home",
+      url: BASE_URL,
+    },
+  ])
+
+export const generateLandingPageSchema = (input: {
+  path: string
+  title: string
+  description: string
+  keywords: string[]
+}) => ({
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": `${BASE_URL}${input.path}#webpage`,
+  url: `${BASE_URL}${input.path}`,
+  name: input.title,
+  description: input.description,
+  inLanguage: "it-IT",
+  keywords: input.keywords.join(", "),
+  isPartOf: {
+    "@id": `${BASE_URL}/#website`,
+  },
+  about: {
+    "@id": `${BASE_URL}/#hotel`,
   },
   potentialAction: {
-    "@type": "ReserveAction",
-    target: {
-      "@type": "EntryPoint",
-      urlTemplate: "https://paradisodellemadonie.it/#prenota",
-      actionPlatform: [
-        "http://schema.org/DesktopWebPlatform",
-        "http://schema.org/MobileWebPlatform"
-      ]
-    },
-    result: {
-      "@type": "LodgingReservation",
-      name: "Prenotazione Hotel"
-    }
-  }
-});
+    "@type": "CommunicateAction",
+    target: [`tel:${PHONE_E164}`, WHATSAPP_URL, `mailto:${CONTACT_EMAIL}`],
+  },
+})
 
-// Schema aggregato completo per la homepage
 export const generateCompleteHomeSchema = () => ({
   "@context": "https://schema.org",
   "@graph": [
+    generateWebSiteSchema(),
     generateOrganizationSchema(),
     generateHotelSchema(),
     generateLocalBusinessSchema(),
+    {
+      ...generateHomeBreadcrumbSchema(),
+      "@id": `${BASE_URL}/#breadcrumb-home`,
+    },
     generateWebPageSchema(),
+    generateRoomListSchema(),
     generateFAQSchema(),
     generateCastelloVentimigliaSchema(),
     generateParcoMadonieSchema(),
     generateGoleTiberioSchema(),
     generatePianoBattagliaSchema(),
-    generateYpsigrokEventSchema(),
-    generateDiVinoEventSchema(),
-    generateFunghiFestEventSchema(),
-    generateMannaProductSchema()
-  ]
-});
+  ],
+})

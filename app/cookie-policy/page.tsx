@@ -3,12 +3,18 @@ import Link from 'next/link'
 import { generatePageMetadata } from '@/lib/seo-utils'
 import CookiePreferencesButton from '@/components/cookie-preferences-button'
 
-export const metadata: Metadata = generatePageMetadata({
-  title: 'Cookie Policy | Hotel Paradiso delle Madonie',
-  description: 'Informativa sull\'uso dei cookie - Hotel Paradiso delle Madonie. Scopri quali cookie utilizziamo e come gestire le tue preferenze.',
-  path: '/cookie-policy',
-  type: 'website',
-})
+export const metadata: Metadata = {
+  ...generatePageMetadata({
+    title: 'Cookie Policy | Hotel Paradiso delle Madonie',
+    description: 'Informativa sull\'uso dei cookie - Hotel Paradiso delle Madonie. Scopri quali cookie utilizziamo e come gestire le tue preferenze.',
+    path: '/cookie-policy',
+    type: 'website',
+  }),
+  robots: {
+    index: false,
+    follow: true,
+  },
+}
 
 export default function CookiePolicyPage() {
   return (
