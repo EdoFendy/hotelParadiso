@@ -58,19 +58,21 @@ export default function StickyBookingBar() {
     <>
       <div
         aria-hidden={!isVisible}
-        className={`fixed bottom-4 left-0 right-0 hidden transform-gpu transition-all duration-300 md:block ${
+        className={`fixed bottom-0 left-0 right-0 hidden transform-gpu transition-all duration-300 md:block ${
           isVisible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-6 opacity-0"
         }`}
-        style={{ zIndex: "var(--z-sticky-bar)" }}
+        style={{
+          zIndex: "var(--z-sticky-bar)",
+          backgroundColor: "rgba(255,255,255,0.97)",
+          borderTop: "1px solid var(--neutral-200)",
+          boxShadow: "0 -8px 32px -8px rgba(23,25,34,0.12)",
+          backdropFilter: "blur(16px)",
+        }}
       >
-        <div className="container-shell">
+        <div className="container-shell py-3">
           <div
-            className="mx-auto flex max-w-5xl items-center justify-between gap-4 rounded-2xl px-4 py-3 backdrop-blur-xl lg:px-6"
-            style={{
-              backgroundColor: "rgba(255,255,255,0.95)",
-              border: "1px solid var(--neutral-200)",
-              boxShadow: "var(--shadow-2xl)",
-            }}
+            className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 lg:px-6"
+            style={{}}
           >
             <div className="flex min-w-0 items-start gap-3">
               <div

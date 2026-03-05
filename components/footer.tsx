@@ -59,7 +59,7 @@ export default function Footer() {
       style={{ backgroundColor: "var(--primary-950)" }}
       className="text-white"
     >
-      <div className="container-shell py-14 sm:py-16">
+      <div className="container-shell py-14 pb-28 sm:py-16 sm:pb-24 md:pb-24">
         {/* CTA Banner */}
         <div
           className="mb-12 rounded-2xl p-6 sm:p-8"
@@ -233,6 +233,14 @@ export default function Footer() {
             >
               {t("footer.contact")}
             </h3>
+            <div
+              className="mt-3 mb-5 rounded-xl px-4 py-3 text-xs leading-relaxed"
+              style={{ backgroundColor: "rgba(255,255,255,0.05)", color: "rgba(255,255,255,0.5)" }}
+            >
+              <p className="font-semibold" style={{ color: "rgba(255,255,255,0.75)" }}>Max&amp;Charme di Massimo Atria</p>
+              <p>P.IVA 02728320819 · SDI KRRH6B9</p>
+              <p>Via Marco Polo 49, 91022 Castelvetrano (TP)</p>
+            </div>
             <div className="mt-4 space-y-3">
               <p
                 className="flex items-start gap-2 text-sm"
@@ -293,9 +301,7 @@ export default function Footer() {
             color: "rgba(255,255,255,0.35)",
           }}
         >
-          <p>
-            © {new Date().getFullYear()} Hotel Paradiso delle Madonie. {t("footer.rights")}
-          </p>
+          <p>© {new Date().getFullYear()} Hotel Paradiso delle Madonie. {t("footer.rights")}</p>
           <div className="flex flex-wrap items-center gap-4">
             <Link href="/privacy" className="hover:text-white transition-colors">
               {t("footer.privacy")}
