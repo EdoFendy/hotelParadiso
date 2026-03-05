@@ -3,6 +3,7 @@
 import { useMemo } from "react"
 import { motion } from "framer-motion"
 import Image from "next/image"
+import Link from "next/link"
 import { CalendarCheck2, Castle, ChefHat, Mountain, UtensilsCrossed } from "lucide-react"
 import { useLanguage } from "@/contexts/language-context"
 
@@ -25,6 +26,7 @@ export default function CastelbuonoSection() {
               desc: "Fortezza medievale con il museo civico: 10 minuti a piedi dall'hotel.",
               image: "/images/castello.png",
               badge: "10 min a piedi",
+              href: "/esperienze/castelbuono",
             },
             {
               icon: ChefHat,
@@ -32,6 +34,7 @@ export default function CastelbuonoSection() {
               desc: "Nettare dolce dalla corteccia del frassino — prodotto unico al mondo lavorato ancora qui.",
               image: "/images/manna.png",
               badge: "Prodotto locale",
+              href: "/esperienze/enogastronomia",
             },
             {
               icon: Mountain,
@@ -39,6 +42,7 @@ export default function CastelbuonoSection() {
               desc: "Sentieri per tutti i livelli: dalla passeggiata al trekking. Flora, fauna e silenzio.",
               image: "/images/parcomadonie.png",
               badge: "Accesso diretto",
+              href: "/esperienze/parco-madonie",
             },
             {
               icon: UtensilsCrossed,
@@ -46,8 +50,10 @@ export default function CastelbuonoSection() {
               desc: "Pasticceria artigianale conosciuta in tutta Italia — a pochi passi dall'hotel.",
               image: "/images/fiasconaro.png",
               badge: "5 min a piedi",
+              href: "/esperienze/enogastronomia",
             },
           ],
+          discoverAll: "Scopri tutte le esperienze →",
         }
         : {
           eyebrow: "Castelbuono",
@@ -62,6 +68,7 @@ export default function CastelbuonoSection() {
               desc: "Medieval fortress with the civic museum — 10-minute walk from the hotel.",
               image: "/images/castello.png",
               badge: "10 min walk",
+              href: "/esperienze/castelbuono",
             },
             {
               icon: ChefHat,
@@ -69,6 +76,7 @@ export default function CastelbuonoSection() {
               desc: "Sweet nectar from the ash tree bark — a unique product still crafted here.",
               image: "/images/manna.png",
               badge: "Local product",
+              href: "/esperienze/enogastronomia",
             },
             {
               icon: Mountain,
@@ -76,6 +84,7 @@ export default function CastelbuonoSection() {
               desc: "Trails for all levels — from casual walks to challenging hikes. Flora, fauna and silence.",
               image: "/images/parcomadonie.png",
               badge: "Direct access",
+              href: "/esperienze/parco-madonie",
             },
             {
               icon: UtensilsCrossed,
@@ -83,8 +92,10 @@ export default function CastelbuonoSection() {
               desc: "Artisan confectionery famous across Italy — steps from the hotel.",
               image: "/images/fiasconaro.png",
               badge: "5 min walk",
+              href: "/esperienze/enogastronomia",
             },
           ],
+          discoverAll: "Discover all experiences →",
         },
     [language],
   )
@@ -114,8 +125,8 @@ export default function CastelbuonoSection() {
         {/* Asymmetric Card Grid */}
         <div className="mt-16 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
           {copy.cards.map((card, index) => (
+            <Link key={card.title} href={card.href} className="block">
             <motion.article
-              key={card.title}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45, delay: index * 0.08 }}
@@ -174,6 +185,7 @@ export default function CastelbuonoSection() {
                 </p>
               </div>
             </motion.article>
+            </Link>
           ))}
         </div>
 
@@ -189,6 +201,15 @@ export default function CastelbuonoSection() {
             <CalendarCheck2 className="h-4 w-4" />
             {copy.cta}
           </button>
+          <div className="mt-4">
+            <Link
+              href="/esperienze"
+              className="text-sm font-semibold transition-colors"
+              style={{ color: "var(--accent-700)" }}
+            >
+              {copy.discoverAll}
+            </Link>
+          </div>
         </motion.div>
       </div>
     </section>

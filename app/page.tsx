@@ -9,6 +9,7 @@ import ContactSection from "@/components/contact-section"
 import ReviewsSection from "@/components/reviews-section"
 import BookingForm from "@/components/booking-form"
 import FAQSection from "@/components/faq-section"
+import NewsletterSection from "@/components/newsletter-section"
 import LocalSeoSection from "@/components/local-seo-section"
 import WhatsAppFloat from "@/components/whatsapp-float"
 import StickyBookingBarShell from "@/components/sticky-booking-bar-shell"
@@ -71,6 +72,7 @@ export default function HomePage() {
         <ReviewsSection />
         <CastelbuonoSection />
         <GallerySection />
+        <NewsletterSection />
         <FAQSection />
         <BookingForm />
         <LocationSection />

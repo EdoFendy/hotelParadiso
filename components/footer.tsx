@@ -194,6 +194,33 @@ export default function Footer() {
                 Hotel vicino Cefalu
               </Link>
             </div>
+
+            <p
+              className="mt-5 text-xs font-semibold uppercase"
+              style={{
+                letterSpacing: "var(--tracking-eyebrow)",
+                color: "var(--accent-300)",
+              }}
+            >
+              {language === "it" ? "Esperienze" : "Experiences"}
+            </p>
+            <div className="mt-3 space-y-2.5">
+              <Link href="/esperienze" className="block text-sm transition-colors" style={{ color: "rgba(255,255,255,0.55)" }}>
+                {language === "it" ? "Tutte le Esperienze" : "All Experiences"}
+              </Link>
+              <Link href="/esperienze/parco-madonie" className="block text-sm transition-colors" style={{ color: "rgba(255,255,255,0.55)" }}>
+                Parco delle Madonie
+              </Link>
+              <Link href="/esperienze/cefalu-costa" className="block text-sm transition-colors" style={{ color: "rgba(255,255,255,0.55)" }}>
+                {language === "it" ? "Cefalu e la Costa" : "Cefalu & the Coast"}
+              </Link>
+              <Link href="/esperienze/enogastronomia" className="block text-sm transition-colors" style={{ color: "rgba(255,255,255,0.55)" }}>
+                Enogastronomia
+              </Link>
+              <Link href="/esperienze/quando-venire" className="block text-sm transition-colors" style={{ color: "rgba(255,255,255,0.55)" }}>
+                {language === "it" ? "Quando Venire" : "When to Visit"}
+              </Link>
+            </div>
           </div>
 
           <div>

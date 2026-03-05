@@ -8,17 +8,6 @@ export default function robots(): MetadataRoute.Robots {
         allow: "/",
         disallow: ["/api/", "/admin/", "/private/", "/dashboard/", "/checkout/"],
       },
-      {
-        userAgent: [
-          "GPTBot",
-          "CCBot",
-          "anthropic-ai",
-          "Claude-Web",
-          "Bytespider",
-          "PetalBot",
-        ],
-        disallow: "/",
-      },
     ],
     sitemap: [
       "https://paradisodellemadonie.it/sitemap.xml",

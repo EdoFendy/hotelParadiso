@@ -206,21 +206,16 @@ export default function AboutSection() {
                 />
               </div>
               <div
-                className="relative flex h-48 flex-col items-center justify-center rounded-2xl p-4 text-center"
-                style={{
-                  backgroundColor: "var(--primary-900)",
-                  color: "#fff",
-                }}
+                className="relative h-48 overflow-hidden rounded-2xl"
+                style={{ border: "1px solid var(--neutral-150)" }}
               >
-                <p
-                  className="text-3xl font-bold"
-                  style={{ fontFamily: "var(--font-serif)" }}
-                >
-                  4.3/5
-                </p>
-                <p className="mt-1 text-sm" style={{ color: "rgba(255,255,255,0.7)" }}>
-                  {language === "it" ? "Valutazione Google" : "Google rating"}
-                </p>
+                <Image
+                  src="/images/camera1.jpg"
+                  alt="Camera Hotel Paradiso delle Madonie"
+                  fill
+                  sizes="(max-width: 768px) 50vw, 25vw"
+                  className="object-cover transition-transform duration-700 hover:scale-105"
+                />
               </div>
             </div>
           </motion.div>

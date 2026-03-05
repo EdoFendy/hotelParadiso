@@ -7,11 +7,11 @@ export default function LocalSeoSection() {
         <div className="mx-auto max-w-4xl">
           <span className="eyebrow">Guida rapida</span>
           <h2 className="section-title text-balance">
-            Hotel a Castelbuono e vicino Cefalu: dove dormire e come scegliere bene.
+            Hotel a Castelbuono, esperienze nelle Madonie e vicino Cefalu: dove dormire e cosa fare.
           </h2>
           <p className="section-subtitle">
-            Se stai cercando un hotel a Castelbuono, un alloggio in centro storico o camere comode per visitare
-            Madonie e Cefalu, qui trovi una sintesi utile, ordinata e aggiornata.
+            Se stai cercando un hotel a Castelbuono, un alloggio in centro storico, camere comode per visitare
+            Madonie e Cefalu, o vuoi scoprire cosa fare in zona, qui trovi una sintesi utile e aggiornata.
           </p>
 
           <div
@@ -69,6 +69,58 @@ export default function LocalSeoSection() {
               </p>
               <Link href="/hotel-cefalu" className="mt-3 inline-block text-sm font-semibold text-accent-700">
                 Vai alla guida Cefalu
+              </Link>
+            </article>
+
+            <article>
+              <h3 className="text-base font-semibold" style={{ color: "var(--neutral-900)" }}>
+                Esperienze Castelbuono
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed" style={{ color: "var(--neutral-600)" }}>
+                Castello medievale, borgo storico, dolci Fiasconaro, manna. Cosa vedere e fare a Castelbuono
+                a piedi dall'hotel.
+              </p>
+              <Link href="/esperienze/castelbuono" className="mt-3 inline-block text-sm font-semibold text-accent-700">
+                Guida a Castelbuono
+              </Link>
+            </article>
+
+            <article>
+              <h3 className="text-base font-semibold" style={{ color: "var(--neutral-900)" }}>
+                Parco delle Madonie Escursioni
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed" style={{ color: "var(--neutral-600)" }}>
+                Sentieri, Gole di Tiberio in gommone, Pizzo Carbonara, agrifogli giganti. Escursioni per tutti
+                i livelli nel Geoparco UNESCO.
+              </p>
+              <Link href="/esperienze/parco-madonie" className="mt-3 inline-block text-sm font-semibold text-accent-700">
+                Guida escursioni Madonie
+              </Link>
+            </article>
+
+            <article>
+              <h3 className="text-base font-semibold" style={{ color: "var(--neutral-900)" }}>
+                Enogastronomia Madonie
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed" style={{ color: "var(--neutral-600)" }}>
+                Manna, Fiasconaro, funghi porcini, formaggi DOP, vini biodinamici. I sapori unici delle Madonie
+                da assaggiare dal vivo.
+              </p>
+              <Link href="/esperienze/enogastronomia" className="mt-3 inline-block text-sm font-semibold text-accent-700">
+                Guida enogastronomia
+              </Link>
+            </article>
+
+            <article>
+              <h3 className="text-base font-semibold" style={{ color: "var(--neutral-900)" }}>
+                Quando Visitare Castelbuono
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed" style={{ color: "var(--neutral-600)" }}>
+                Primavera per i fiori, estate per il mare, autunno per i funghi, inverno per il Natale. La guida
+                stagionale completa.
+              </p>
+              <Link href="/esperienze/quando-venire" className="mt-3 inline-block text-sm font-semibold text-accent-700">
+                Guida stagionale
               </Link>
             </article>
           </div>

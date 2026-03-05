@@ -17,6 +17,7 @@ import {
   HelpCircle,
   MessageCircle,
 } from "lucide-react"
+import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { useLanguage } from "@/contexts/language-context"
 
@@ -279,6 +280,19 @@ export default function NavigationBar() {
                   <span className="relative z-10">{link.label}</span>
                 </button>
               ))}
+
+              {/* Esperienze link */}
+              <Link
+                href="/esperienze"
+                className={cn(
+                  "relative rounded-full px-3 py-1.5 text-xs font-medium transition-colors duration-300",
+                  isScrolled
+                    ? "text-neutral-500 hover:text-neutral-900"
+                    : "text-white/90 hover:text-white"
+                )}
+              >
+                {language === "it" ? "Esperienze" : "Experiences"}
+              </Link>
 
               {/* Explore mega-menu trigger */}
               <div
@@ -667,6 +681,15 @@ export default function NavigationBar() {
                       />
                     </button>
                   ))}
+                  <Link
+                    href="/esperienze"
+                    onClick={() => setIsMobileOpen(false)}
+                    className="flex w-full items-center justify-between rounded-xl px-4 py-3 text-left text-sm font-medium transition-all hover:bg-neutral-50"
+                    style={{ color: "var(--neutral-700)", transitionDuration: "var(--duration-fast)" }}
+                  >
+                    {language === "it" ? "Esperienze" : "Experiences"}
+                    <ChevronRight className="h-4 w-4 opacity-40" />
+                  </Link>
                 </div>
               </div>
 
