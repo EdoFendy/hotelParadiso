@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { checkAvailability, getBlockedDates, getAllRoomPrices, type RoomType } from "@/lib/booking"
+import { getAvailableCountByType } from "@/lib/dashboard-api"
 
 const VALID_ROOM_TYPES: RoomType[] = ["single", "double", "triple", "quad"]
 
@@ -60,9 +61,25 @@ export async function GET(req: NextRequest) {
             )
         }
 
-        const result = await checkAvailability(roomType, checkIn, checkOut)
+        // Get pricing from local lib (source of truth for prices on this site)
+        const pricingResult = await checkAvailability(roomType, checkIn, checkOut)
 
-        return NextResponse.json(result)
+        // Override availability count with real-time Firestore data from dashboard API
+        let { roomsAvailable, available } = pricingResult
+        try {
+            const countByType = await getAvailableCountByType(checkIn, checkOut)
+            roomsAvailable = countByType[roomType] ?? 0
+            available = roomsAvailable > 0
+        } catch (dashErr) {
+            // Fallback to iCal check if dashboard API is unreachable
+            console.warn("[availability] Dashboard API unreachable, using iCal fallback:", dashErr)
+        }
+
+        return NextResponse.json({
+            ...pricingResult,
+            available,
+            roomsAvailable,
+        })
     } catch (err) {
         console.error("[availability] Error:", err)
         return NextResponse.json(

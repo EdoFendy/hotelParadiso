@@ -1,13 +1,18 @@
 import { NextRequest, NextResponse } from "next/server"
-import { checkAvailability, createReservation, type RoomType } from "@/lib/booking"
-import { createSumUpCheckout } from "@/lib/sumup"
+import { checkAvailability, type RoomType } from "@/lib/booking"
+import { getAvailableCountByType, createDashboardReservation } from "@/lib/dashboard-api"
 
 const VALID_ROOM_TYPES: RoomType[] = ["single", "double", "triple", "quad"]
 
 export async function POST(req: NextRequest) {
     try {
         const body = await req.json()
-        const { roomType, checkIn, checkOut, adults, children, name, email, phone, notes } = body
+        const {
+            roomType, checkIn, checkOut,
+            adults, children, name, email, phone, notes,
+            pet, crib, parking, lateCheckIn, dietaryNeeds,
+            pricePerNight, totalPrice, nights, quantity,
+        } = body
 
         // Validate required fields
         if (!roomType || !checkIn || !checkOut || !name || !email || !phone) {
@@ -24,83 +29,88 @@ export async function POST(req: NextRequest) {
             )
         }
 
-        // Re-check availability (prevent race conditions)
-        const availability = await checkAvailability(roomType as RoomType, checkIn, checkOut)
-        if (!availability.available) {
+        // Re-check availability in real time (prevent race conditions)
+        const needed = Math.max(1, Number(quantity) || 1)
+        let roomsAvailable = 0
+        try {
+            const countByType = await getAvailableCountByType(checkIn, checkOut)
+            roomsAvailable = countByType[roomType as RoomType] ?? 0
+        } catch {
+            // Fallback to iCal check if dashboard API unreachable
+            const fallback = await checkAvailability(roomType as RoomType, checkIn, checkOut)
+            roomsAvailable = fallback.roomsAvailable
+        }
+
+        if (roomsAvailable < needed) {
             return NextResponse.json(
                 { error: "Room is no longer available for the selected dates", available: false },
                 { status: 409 }
             )
         }
 
-        // Determine redirect URL for SumUp
-        const origin = req.headers.get("origin") || req.headers.get("referer")?.replace(/\/[^/]*$/, "") || "https://paradisodellemadonie.it"
-        const redirectUrl = `${origin}/#prenota`
-
-        // Create SumUp checkout
-        let checkoutId = ""
-        let checkoutData = null
-
-        const hasSumUpKeys = process.env.SUMUP_API_KEY && process.env.SUMUP_MERCHANT_CODE
-
-        if (hasSumUpKeys) {
-            try {
-                const reference = `HP-${Date.now()}-${roomType}`
-                const roomLabels: Record<string, string> = {
-                    single: "Camera Singola",
-                    double: "Camera Doppia",
-                    triple: "Camera Tripla",
-                    quad: "Camera Quadrupla",
-                }
-                const description = `${roomLabels[roomType]} — ${checkIn} → ${checkOut} (${availability.nights} notti)`
-
-                checkoutData = await createSumUpCheckout(
-                    availability.totalPrice,
-                    reference,
-                    description,
-                    email,
-                    redirectUrl
-                )
-                checkoutId = checkoutData.id
-            } catch (err) {
-                console.error("[create] SumUp checkout error:", err)
-                return NextResponse.json(
-                    { error: "Payment system error. Please try again or contact the hotel directly." },
-                    { status: 502 }
-                )
-            }
-        } else {
-            // Demo mode — no SumUp keys configured
-            checkoutId = `demo-${Date.now()}`
+        // Get final pricing if not already provided by the form
+        let finalPricePerNight = Number(pricePerNight) || 0
+        let finalTotalPrice = Number(totalPrice) || 0
+        let finalNights = Number(nights) || 0
+        if (!finalPricePerNight || !finalTotalPrice || !finalNights) {
+            const pricing = await checkAvailability(roomType as RoomType, checkIn, checkOut)
+            finalPricePerNight = pricing.pricePerNight
+            finalTotalPrice = pricing.totalPrice
+            finalNights = pricing.nights
         }
 
-        // Create reservation in pending status
-        const reservation = createReservation({
-            roomType: roomType as RoomType,
+        const {
+            paymentType = "full",
+        } = body
+
+        if (!["full", "deposit"].includes(paymentType)) {
+            return NextResponse.json(
+                { error: "paymentType must be 'full' or 'deposit'" },
+                { status: 400 }
+            )
+        }
+
+        const roomTotalPrice = finalTotalPrice * needed
+        const totalPeople = (Number(adults) || 0) + (Number(children) || 0)
+
+        // Create reservation in Firestore via dashboard API
+        const result = await createDashboardReservation({
+            guestName: name,
+            email,
+            phoneNumber: phone,
             checkIn,
             checkOut,
-            adults: adults || 2,
-            children: children || 0,
-            name,
-            email,
-            phone,
+            roomType: roomType as RoomType,
+            quantity: needed,
+            adults: Number(adults) || 2,
+            children: Number(children) || 0,
+            totalPeople,
             notes: notes || "",
-            sumupCheckoutId: checkoutId,
+            pet: Boolean(pet),
+            crib: Boolean(crib),
+            parking: Boolean(parking),
+            lateCheckIn: Boolean(lateCheckIn),
+            dietaryNeeds: dietaryNeeds || "",
+            pricePerNight: finalPricePerNight,
+            totalPrice: roomTotalPrice,
+            nights: finalNights,
+            paymentType,
         })
 
         return NextResponse.json({
             success: true,
-            reservationId: reservation.id,
-            checkoutId,
-            amount: availability.totalPrice,
-            nights: availability.nights,
-            pricePerNight: availability.pricePerNight,
-            demoMode: !hasSumUpKeys,
+            reservationId: result.reservationId,
+            roomNumbers: result.roomNumbers,
+            nights: finalNights,
+            pricePerNight: finalPricePerNight,
+            amount: roomTotalPrice,
+            paymentType,
         })
     } catch (err) {
         console.error("[create] Error:", err)
+        const message = err instanceof Error ? err.message : "Internal server error"
         return NextResponse.json(
-            { error: "Internal server error" },
+            { error: message },
             { status: 500 }
         )
     }

@@ -5,9 +5,9 @@ import { motion, AnimatePresence } from "framer-motion"
 import { DayPicker, type DateRange } from "react-day-picker"
 import {
   CalendarCheck2, Check, ChevronRight, ChevronLeft, Loader2, Mail,
-  MessageCircle, Phone, ShieldCheck, Sparkles, User, Users,
+  Lock, Phone, ShieldCheck, Sparkles, User, Users,
   BadgePercent, PartyPopper, Clock, Baby, Dog, Car, Moon, UtensilsCrossed,
-  Plus, Minus,
+  Plus, Minus, CreditCard, Info,
 } from "lucide-react"
 import { useLanguage } from "@/contexts/language-context"
 import "react-day-picker/dist/style.css"
@@ -37,7 +37,9 @@ function formatDateDisplay(dateStr: string, lang: string): string {
 export default function BookingForm() {
   const { language, t } = useLanguage()
   const [step, setStep] = useState<BookingStep>(1)
-  const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle")
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle")
+  const [reservationIds, setReservationIds] = useState<string[]>([])
+  const [paymentType, setPaymentType] = useState<"full" | "deposit">("full")
 
   // Step 1
   const [dateRange, setDateRange] = useState<DateRange | undefined>()
@@ -87,13 +89,13 @@ export default function BookingForm() {
     extraParking: "Parcheggio", extraLateCheckIn: "Check-in dopo le 22",
     extraDietary: "Esigenze alimentari (colazione)",
     dietaryPlaceholder: "Es. senza glutine, vegano...",
-    sendWhatsApp: "Invia richiesta su WhatsApp",
+    sendWhatsApp: "Paga e conferma",
     sendingLabel: "Un attimo...",
-    sentTitle: "Richiesta inviata! 🎉",
-    sentHelper: "Ti rispondiamo su WhatsApp entro pochi minuti con la conferma della disponibilità.",
-    sentWaiting: "Risposta in arrivo entro pochi min",
+    sentTitle: "Prenotazione ricevuta!",
+    sentHelper: "Abbiamo ricevuto la tua prenotazione. Ti contatteremo su WhatsApp al numero lasciato per qualsiasi comunicazione.",
+    sentWaiting: "Reindirizzamento al pagamento...",
     newBooking: "Nuova prenotazione",
-    benefits: ["Sconto diretto del 10% sul tariffario ufficiale", "Cancellazione flessibile", "Parli direttamente con noi", "Conferma rapida su WhatsApp"],
+    benefits: ["Sconto diretto del 10% sul tariffario ufficiale", "Cancellazione flessibile (rimborso entro 15 giorni)", "Pagamento sicuro con SumUp", "Comunicazioni dirette via WhatsApp"],
     roomLabels: { single: "Singola", double: "Doppia", triple: "Tripla", quad: "Quadrupla" } as Record<RoomType, string>,
     roomGuests: { single: "1 persona", double: "2 persone", triple: "3 persone", quad: "4 persone" } as Record<RoomType, string>,
     callUs: "Preferisci chiamarci?",
@@ -127,13 +129,13 @@ export default function BookingForm() {
     extraParking: "Parking", extraLateCheckIn: "Late check-in (after 10pm)",
     extraDietary: "Dietary needs (breakfast)",
     dietaryPlaceholder: "e.g. gluten-free, vegan...",
-    sendWhatsApp: "Send request on WhatsApp",
+    sendWhatsApp: "Pay & confirm",
     sendingLabel: "One moment...",
-    sentTitle: "Request sent! 🎉",
-    sentHelper: "We'll reply on WhatsApp within minutes to confirm availability.",
-    sentWaiting: "Reply coming within minutes",
+    sentTitle: "Booking received!",
+    sentHelper: "We've received your booking. We'll contact you on WhatsApp at the number you provided.",
+    sentWaiting: "Redirecting to payment...",
     newBooking: "New booking",
-    benefits: ["Direct 10% discount on official tariff", "Flexible cancellation", "Talk directly with us", "Fast WhatsApp confirmation"],
+    benefits: ["Direct 10% discount on official tariff", "Flexible cancellation (refund within 15 days)", "Secure payment with SumUp", "Direct communication via WhatsApp"],
     roomLabels: { single: "Single", double: "Double", triple: "Triple", quad: "Quadruple" } as Record<RoomType, string>,
     roomGuests: { single: "1 person", double: "2 people", triple: "3 people", quad: "4 people" } as Record<RoomType, string>,
     callUs: "Prefer to call?",
@@ -284,98 +286,85 @@ export default function BookingForm() {
     [selectedRoomTypes, availabilityByRoom, roomSelections],
   )
 
-  // ─── WhatsApp ─────────────────────────────────────────────
-  const handleSendWhatsApp = () => {
+  // ─── Submit booking: create reservations → SumUp checkout → redirect ──
+  const handleSubmitBooking = async () => {
     if (!dateRange?.from || !dateRange?.to) return
     setStatus("sending")
-    const ci = formatDateDisplay(formatDate(dateRange.from), language)
-    const co = formatDateDisplay(formatDate(dateRange.to), language)
+
+    const checkIn = formatDate(dateRange.from)
+    const checkOut = formatDate(dateRange.to)
     const n = selectedNights
-    const nw = n === 1 ? copy.nightLabel : copy.nightsLabel
-    const price = pricingTotals.complete ? formatMoney(pricingTotals.totalDirect) : "---"
-    const pn = pricingTotals.complete && n > 0 ? formatMoney(pricingTotals.totalDirect / n) : "---"
-    const savings = pricingTotals.complete ? formatMoney(pricingTotals.totalSavings) : "---"
 
-    const extrasLines: string[] = []
-    if (extras.pet) extrasLines.push(language === "it" ? "Animale domestico" : "Pet")
-    if (extras.crib) extrasLines.push(language === "it" ? "Culla in camera" : "Crib needed")
-    if (extras.parking) extrasLines.push(language === "it" ? "Parcheggio" : "Parking")
-    if (extras.lateCheckIn) extrasLines.push(language === "it" ? "Check-in tardivo" : "Late check-in")
-    if (extras.dietaryNeeds.trim()) {
-      extrasLines.push(
-        language === "it"
-          ? `Esigenze alimentari: ${extras.dietaryNeeds.trim()}`
-          : `Dietary needs: ${extras.dietaryNeeds.trim()}`,
+    try {
+      // Step 1: create one Firestore reservation per selected room type (parallel)
+      const bookingPromises = selectedRoomLines.map((line) =>
+        fetch("/api/booking/create", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            roomType: line.roomType,
+            quantity: line.quantity,
+            checkIn,
+            checkOut,
+            name: guest.name,
+            email: guest.email,
+            phone: guest.phone,
+            adults: guest.adults,
+            children: guest.children,
+            notes: guest.notes,
+            pet: extras.pet,
+            crib: extras.crib,
+            parking: extras.parking,
+            lateCheckIn: extras.lateCheckIn,
+            dietaryNeeds: extras.dietaryNeeds,
+            pricePerNight: line.availability?.pricePerNight ?? null,
+            totalPrice: line.availability ? line.availability.totalPrice * line.quantity : null,
+            nights: line.availability?.nights ?? n,
+            paymentType,
+          }),
+        }).then((r) => r.json())
       )
+
+      const results = await Promise.all(bookingPromises)
+      const failed = results.filter((r) => !r.success)
+      if (failed.length > 0) {
+        console.error("[booking] Failed bookings:", failed)
+        setStatus("error")
+        return
+      }
+
+      const ids = results.map((r: { reservationId: string }) => r.reservationId).filter(Boolean)
+      setReservationIds(ids)
+
+      // Step 2: create ONE SumUp checkout for the combined total
+      const combinedTotal = results.reduce((sum: number, r: { amount: number }) => sum + (r.amount || 0), 0)
+      const checkoutRes = await fetch("/api/booking/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          reservationIds: ids,
+          totalAmount: combinedTotal,
+          email: guest.email,
+          paymentType,
+          checkIn,
+          checkOut,
+        }),
+      })
+      const checkoutData = await checkoutRes.json()
+      if (!checkoutData.success || !checkoutData.checkoutUrl) {
+        console.error("[booking] Checkout creation failed:", checkoutData)
+        setStatus("error")
+        return
+      }
+
+      // Step 3: redirect to SumUp hosted payment page
+      setStatus("sent")
+      setStep(4)
+      window.location.href = checkoutData.checkoutUrl
+    } catch (err) {
+      console.error("[booking] Submit error:", err)
+      setStatus("error")
     }
-
-    const guestCount =
-      language === "it"
-        ? `${guest.adults} adulti${guest.children > 0 ? `, ${guest.children} bambini` : ""}`
-        : `${guest.adults} adults${guest.children > 0 ? `, ${guest.children} children` : ""}`
-
-    const notes = guest.notes.trim()
-    const roomLines = selectedRoomLines.map((line) => {
-      const unitPrice = line.availability ? formatMoney(line.availability.pricePerNight) : null
-      return unitPrice
-        ? `${copy.roomLabels[line.roomType]} x ${line.quantity} (${unitPrice}${copy.perNight})`
-        : `${copy.roomLabels[line.roomType]} x ${line.quantity}`
-    })
-
-    const msg = language === "it"
-      ? [
-        "*Richiesta prenotazione*",
-        "",
-        "Contatti",
-        `- Nome: ${guest.name}`,
-        `- Email: ${guest.email}`,
-        `- Telefono: ${guest.phone}`,
-        "",
-        "Soggiorno",
-        `- Camere selezionate: ${totalSelectedRooms}`,
-        ...roomLines.map((line) => `- ${line}`),
-        `- Date: ${ci} -> ${co}`,
-        `- Durata: ${n} ${nw}`,
-        `- Ospiti: ${guestCount}`,
-        "",
-        "Prezzo stimato",
-        `- Totale: ${price}`,
-        `- Media a notte (tutte le camere): ${pn}`,
-        ...(pricingTotals.complete && pricingTotals.totalSavings > 0 ? [`- Risparmio stimato: ${savings}`] : []),
-        ...(extrasLines.length ? ["", "*Richieste extra*", ...extrasLines.map((line) => `- ${line}`)] : []),
-        ...(notes ? ["", "*Note*", notes] : []),
-        "",
-        "Grazie, attendo conferma.",
-      ].join("\n")
-      : [
-        "*Booking request*",
-        "",
-        "Contact",
-        `- Name: ${guest.name}`,
-        `- Email: ${guest.email}`,
-        `- Phone: ${guest.phone}`,
-        "",
-        "Stay",
-        `- Selected rooms: ${totalSelectedRooms}`,
-        ...roomLines.map((line) => `- ${line}`),
-        `- Dates: ${ci} -> ${co}`,
-        `- Length: ${n} ${nw}`,
-        `- Guests: ${guestCount}`,
-        "",
-        "Estimated price",
-        `- Total: ${price}`,
-        `- Average per night (all rooms): ${pn}`,
-        ...(pricingTotals.complete && pricingTotals.totalSavings > 0 ? [`- Estimated savings: ${savings}`] : []),
-        ...(extrasLines.length ? ["", "*Extra requests*", ...extrasLines.map((line) => `- ${line}`)] : []),
-        ...(notes ? ["", "*Notes*", notes] : []),
-        "",
-        "Thank you. Waiting for confirmation.",
-      ].join("\n")
-
-    setTimeout(() => {
-      window.open(`https://wa.me/393929309201?text=${encodeURIComponent(msg)}`, "_blank")
-      setStatus("sent"); setStep(4)
-    }, 400)
   }
 
   // ─── Navigation ──────────────────────────────────────────
@@ -391,12 +380,13 @@ export default function BookingForm() {
   const goNext = () => {
     if (step === 1 && canGoStep2) setStep(2)
     else if (step === 2 && canGoStep3) setStep(3)
-    else if (step === 3 && canGoStep4) handleSendWhatsApp()
+    else if (step === 3 && canGoStep4) { setStatus("idle"); handleSubmitBooking() }
   }
   const goBack = () => { if (step === 2) setStep(1); else if (step === 3) setStep(2) }
 
   const resetForm = () => {
-    setStep(1); setStatus("idle"); setDateRange(undefined)
+    setStep(1); setStatus("idle"); setDateRange(undefined); setReservationIds([])
+    setPaymentType("full")
     setRoomSelections({ single: 0, double: 1, triple: 0, quad: 0 })
     setAvailabilityByRoom({})
     setGuest({ name: "", email: "", phone: "", notes: "", adults: 2, children: 0 })
@@ -730,46 +720,81 @@ export default function BookingForm() {
                     </div>
                   )}
 
+                  {/* Payment choice */}
+                  <div className="mt-6">
+                    <p className="mb-2 text-sm font-semibold" style={{ color: "var(--neutral-800)" }}>
+                      {language === "it" ? "Metodo di pagamento" : "Payment method"}
+                    </p>
+                    <div className="grid gap-2 sm:grid-cols-2">
+                      {(["full", "deposit"] as const).map((pt) => {
+                        const isSelected = paymentType === pt
+                        const baseTotal = pricingTotals.complete ? pricingTotals.totalDirect : 0
+                        const amount = pt === "deposit" ? Math.round(baseTotal * 0.30 * 100) / 100 : baseTotal
+                        const label = pt === "full"
+                          ? (language === "it" ? `Paga subito — ${formatMoney(amount)}` : `Pay now — ${formatMoney(amount)}`)
+                          : (language === "it" ? `Caparra 30% — ${formatMoney(amount)}` : `Deposit 30% — ${formatMoney(amount)}`)
+                        const sublabel = pt === "full"
+                          ? (language === "it" ? "Pagamento completo adesso" : "Full payment now")
+                          : (language === "it" ? "Saldo in struttura al check-in" : "Balance due at check-in")
+                        return (
+                          <button key={pt} type="button" onClick={() => setPaymentType(pt)}
+                            className="flex flex-col items-start gap-0.5 rounded-xl px-4 py-3 text-left text-sm transition-all"
+                            style={{ backgroundColor: isSelected ? "var(--accent-50)" : "var(--neutral-50)", border: isSelected ? "1.5px solid var(--accent-400)" : "1px solid var(--neutral-150)", color: isSelected ? "var(--accent-800)" : "var(--neutral-700)" }}>
+                            <span className="font-semibold">{label}</span>
+                            <span className="text-xs" style={{ color: isSelected ? "var(--accent-600)" : "var(--neutral-400)" }}>{sublabel}</span>
+                          </button>
+                        )
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Cancellation policy */}
+                  <div className="mt-4 rounded-xl px-4 py-3" style={{ backgroundColor: "var(--neutral-50)", border: "1px solid var(--neutral-150)" }}>
+                    <p className="flex items-center gap-1.5 text-xs font-semibold" style={{ color: "var(--neutral-600)" }}>
+                      <Info className="h-3.5 w-3.5" />
+                      {language === "it" ? "Politica di cancellazione" : "Cancellation policy"}
+                    </p>
+                    <ul className="mt-2 space-y-1 text-xs" style={{ color: "var(--neutral-500)" }}>
+                      <li>• {language === "it" ? "Entro 15 giorni prima: rimborso completo" : "More than 15 days before: full refund"}</li>
+                      <li>• {language === "it" ? "Da 4 a 14 giorni prima: rimborso del 50%" : "4–14 days before: 50% refund"}</li>
+                      <li>• {language === "it" ? "Meno di 3 giorni prima: nessun rimborso" : "Less than 3 days before: no refund"}</li>
+                    </ul>
+                  </div>
+
+                  {status === "error" && (
+                    <p className="mt-4 rounded-lg px-4 py-2 text-sm font-medium" style={{ backgroundColor: "rgba(220,38,38,0.1)", color: "#dc2626" }}>
+                      {copy.error}
+                    </p>
+                  )}
                   <button onClick={goNext} disabled={!canGoStep4 || status === "sending"}
-                    className="cta-pill-accent mt-6 w-full justify-center disabled:opacity-40 disabled:cursor-not-allowed"
-                    style={{ backgroundColor: "#25D366", boxShadow: "0 8px 32px -8px rgba(37,211,102,0.4)" }}>
-                    {status === "sending" ? <><Loader2 className="h-4 w-4 animate-spin" />{copy.sendingLabel}</> : <><MessageCircle className="h-4 w-4" />{copy.sendWhatsApp}</>}
+                    className="cta-pill-accent mt-4 w-full justify-center disabled:opacity-40 disabled:cursor-not-allowed">
+                    {status === "sending" ? <><Loader2 className="h-4 w-4 animate-spin" />{copy.sendingLabel}</> : <><Lock className="h-4 w-4" />{copy.sendWhatsApp}</>}
                   </button>
+                  <p className="mt-2 text-center text-xs" style={{ color: "var(--neutral-400)" }}>
+                    <CreditCard className="mr-1 inline h-3 w-3" />
+                    {language === "it" ? "Pagamento sicuro tramite SumUp" : "Secure payment via SumUp"}
+                  </p>
                 </motion.div>
               )}
 
-              {/* ─── STEP 4: Sent ─── */}
+              {/* ─── STEP 4: Redirecting to SumUp ─── */}
               {step === 4 && (
                 <motion.div key="s4" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.25 }}>
-                  <div className="text-center">
+                  <div className="text-center py-8">
                     <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full" style={{ backgroundColor: "var(--accent-100)" }}>
-                      <PartyPopper className="h-8 w-8" style={{ color: "var(--accent-600)" }} />
+                      <Loader2 className="h-8 w-8 animate-spin" style={{ color: "var(--accent-600)" }} />
                     </div>
-                    <h3 className="text-xl font-bold" style={{ color: "var(--neutral-900)" }}>{copy.sentTitle}</h3>
-                    <p className="mt-2 text-sm" style={{ color: "var(--neutral-500)" }}>{copy.sentHelper}</p>
+                    <h3 className="text-xl font-bold" style={{ color: "var(--neutral-900)" }}>
+                      {language === "it" ? "Reindirizzamento al pagamento..." : "Redirecting to payment..."}
+                    </h3>
+                    <p className="mt-2 text-sm" style={{ color: "var(--neutral-500)" }}>
+                      {language === "it"
+                        ? "Stai per essere reindirizzato alla pagina di pagamento sicura SumUp."
+                        : "You are being redirected to the secure SumUp payment page."}
+                    </p>
                     <div className="mx-auto mt-4 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium" style={{ backgroundColor: "var(--accent-50)", color: "var(--accent-700)", border: "1px solid var(--accent-200)" }}>
                       <Clock className="h-4 w-4 animate-pulse" />{copy.sentWaiting}
                     </div>
-                    {selectedRoomLines.length > 0 && dateRange?.from && dateRange?.to && (
-                      <div className="mt-6 rounded-xl p-5 text-left" style={{ backgroundColor: "var(--neutral-50)", border: "1px solid var(--neutral-150)" }}>
-                        <div className="space-y-2 text-sm" style={{ color: "var(--neutral-700)" }}>
-                          {selectedRoomLines.map((line) => (
-                            <p key={line.roomType}>
-                              <span className="font-medium">{copy.roomLabels[line.roomType]}</span> × {line.quantity}
-                            </p>
-                          ))}
-                          <p>{formatDateDisplay(formatDate(dateRange.from), language)} → {formatDateDisplay(formatDate(dateRange.to), language)}</p>
-                          <p>
-                            {selectedNights} {selectedNights === 1 ? copy.nightLabel : copy.nightsLabel} ·{" "}
-                            <span className="font-bold" style={{ color: "var(--accent-700)" }}>
-                              {pricingTotals.complete ? formatMoney(pricingTotals.totalDirect) : "..."}
-                            </span>
-                          </p>
-                          <p><span className="font-medium">{guest.name}</span> · {guest.email}</p>
-                        </div>
-                      </div>
-                    )}
-                    <button onClick={resetForm} className="cta-pill-outline mt-6 w-full justify-center">{copy.newBooking}</button>
                   </div>
                 </motion.div>
               )}
